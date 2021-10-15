@@ -9,19 +9,19 @@
 <h1 align="center">Commerce</h1>
 
 <p align="center">
-  <img alt="Github top language" src="https://img.shields.io/github/languages/top/me50/AH-SALAH/tree/web50/projects/2020/x/commerce?color=56BEB8">
+  <!-- <img alt="Github top language" src="https://img.shields.io/github/languages/top/me50/AH-SALAH/web50/projects/2020/x/commerce?color=56BEB8"> -->
 
-  <img alt="Github language count" src="https://img.shields.io/github/languages/count/me50/AH-SALAH/tree/web50/projects/2020/x/commerce?color=56BEB8">
+  <!-- <img alt="Github language count" src="https://img.shields.io/github/languages/count/me50/AH-SALAH/web50/projects/2020/x/commerce?color=56BEB8"> -->
 
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/me50/AH-SALAH/tree/web50/projects/2020/x/commerce?color=56BEB8">
+  <!-- <img alt="Repository size" src="https://img.shields.io/github/repo-size/me50/AH-SALAH/web50/projects/2020/x/commerce?color=56BEB8"> -->
 
-  <img alt="License" src="https://img.shields.io/github/license/me50/AH-SALAH/tree/web50/projects/2020/x/commerce?color=56BEB8">
+  <!-- <img alt="License" src="https://img.shields.io/github/license/me50/AH-SALAH/web50/projects/2020/x/commerce?color=56BEB8"> -->
 
-  <!-- <img alt="Github issues" src="https://img.shields.io/github/issues/me50/AH-SALAH/tree/web50/projects/2020/x/commerce?color=56BEB8" /> -->
+  <!-- <img alt="Github issues" src="https://img.shields.io/github/issues/me50/AH-SALAH/web50/projects/2020/x/commerce?color=56BEB8" /> -->
 
-  <!-- <img alt="Github forks" src="https://img.shields.io/github/forks/me50/AH-SALAH/tree/web50/projects/2020/x/commerce?color=56BEB8" /> -->
+  <!-- <img alt="Github forks" src="https://img.shields.io/github/forks/me50/AH-SALAH/web50/projects/2020/x/commerce?color=56BEB8" /> -->
 
-  <!-- <img alt="Github stars" src="https://img.shields.io/github/stars/me50/AH-SALAH/tree/web50/projects/2020/x/commerce?color=56BEB8" /> -->
+  <!-- <img alt="Github stars" src="https://img.shields.io/github/stars/me50/AH-SALAH/web50/projects/2020/x/commerce?color=56BEB8" /> -->
 </p>
 
 <!-- Status -->
@@ -78,7 +78,7 @@ Before starting :checkered_flag:\
 
 ```bash
 # Clone this project
-$ git clone https://github.com/me50/AH-SALAH/tree/web50/projects/2020/x/commerce
+$ git clone https://github.com/me50/AH-SALAH/web50/projects/2020/x/commerce
 
 # Access
 # cd to the base folder if not already there
