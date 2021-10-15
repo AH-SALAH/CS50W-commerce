@@ -65,6 +65,7 @@ The following tools were used in this project:
 
 - [Django](https://docs.djangoproject.com/)
 - [Pillow](https://pypi.org/project/Pillow/)
+- [MDB](https://mdbootstrap.com/)
 
 ## :white_check_mark: Requirements ##
 
