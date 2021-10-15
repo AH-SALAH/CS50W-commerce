@@ -1,0 +1,55 @@
+ {% load i18n %}
+
+ <!-- filter -->
+ <div class="card mb-4">
+    <div class="filteration d-flex justify-content-between align-items-center flex-wrap card-body pt-1">
+        <div class="filter d-flex justify-content-between align-items-end my-2">
+            <div class="filter_label d-flex justify-content-start align-items-center">
+                <i class="fas fa-filter mx-2" aria-hidden="true"></i>
+            </div>
+            <form action="{% url 'index' %}" method="get" class="d-flex justify-content-between align-items-end">
+                {% csrf_token %}
+                {% for field in sort_form %}
+                    {% if field.field.widget.input_type == 'checkbox' %}
+                        <div class="form-group mx-2">
+                            <div class="form-check form-switch">
+                                <input 
+                                    type="checkbox"
+                                    name="{{field.name}}" 
+                                    value="{{field.value}}"
+                                    data-value="{{field.field.widget.attrs.datavalue}}"
+                                    class="{{field.field.widget.attrs.class}}" 
+                                    onchange="{{field.field.widget.attrs.onchange}}" 
+                                    id="id_{{field.name}}" 
+                                    {% if field.value|capfirst == 'True' and field.value in filtered_data.values %}checked{% endif %}
+                                >
+                                {{field.label_tag}}
+                            </div>
+                        </div>
+
+                    {% endif %}
+
+                {% endfor %}
+            </form>
+        </div>
+        <div class="sort my-2">
+            <form action="{% url 'index' %}" method="get" class="d-flex justify-content-between align-items-end">
+                {% csrf_token %}
+                {% for field in sort_form %}
+                    {% if field.field.widget.input_type == 'select' %}
+                        <div class="form-group mx-2">
+                            <select name="{{field.name}}" id="id_{{field.name}}" onchange="{{field.field.widget.attrs.onchange}}" class="form-control form-select">
+                                <option value="">--- {% trans "Sort by" %} {{field.label}} ---</option>
+                                {% for opt in field.field.choices %}
+                                    <option value="{{opt.0}}" {% if opt.0 in filtered_data.values %}selected{% endif %}>{{opt.1}}</option>
+                                {% endfor %}
+                            </select>
+                            <small>{{field.help_text}}</small>
+                        </div>
+                    {% endif %}
+
+                {% endfor %}
+            </form>
+        </div>
+    </div>
+</div>

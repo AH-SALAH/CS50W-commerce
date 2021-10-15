@@ -1,0 +1,35 @@
+{% load i18n %}
+
+<div class="row fixed-bottom">
+    <div class="col-xl-10 col-md-10 mb-4 mt-n3 mx-auto">
+        <div class="hover-shadow card border" style="background-color:#fbfbfb;">
+            <div class="card-body">
+                <form action="{% url 'add-bid' %}" method="post">
+                    <div class="d-flex justify-content-around align-items-center p-md-1">
+                        <div class="d-flex flex-row w-50">
+                            {% csrf_token %}
+                            {% for field in form %}
+                                {{field}}
+                                {% for error in field.errors %}
+                                    <div class="row mb-0 w-50 align-items-center mx-1">
+                                        <div class="col-md-12">
+                                            <div class="text-danger small font-weight-bold">
+                                                {% blocktrans trimmed %}
+                                                    {{error|escape}}
+                                                {% endblocktrans %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                            <input type="hidden" class="form-control" name="nxt" value="page={{request.GET.page}}&rt={{request.GET.rt}}">
+                        </div>
+                        <div class="align-self-center w-25">
+                            <button type="submit" class="btn btn-primary w-100">{% trans "Bid Now" %}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

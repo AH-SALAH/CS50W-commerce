@@ -1,0 +1,22 @@
+{% load i18n %}
+
+<section>
+    <div class="d-flex justify-content-between align-items-start">
+        <h4 class="mb-5"><strong>{% trans "Related Listings" %}</strong></h4>
+        <a href="{% url 'categories-single' listing.category.parent.slug listing.category.slug %}">{% trans "See all" %}</a>
+    </div>
+
+    <div class="row">
+        <!-- relative Listings -->
+        {% for listing in rel_listing %}
+            <div class="col-lg-3 col-md-4 mb-4">
+                {% include "auctions/partials/card-v.html" with listing=listing %}
+            </div>
+        {% empty %}
+            <h5 class="my-5 text-center">
+                <i class="fas fa-box-open fa-2x mb-2"></i>
+                <p>{% trans "No related Listings yet" %}</p>
+            </h5>
+        {% endfor %}
+    </div>
+</section>

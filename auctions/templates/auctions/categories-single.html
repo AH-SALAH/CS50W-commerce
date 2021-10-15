@@ -1,0 +1,38 @@
+{% extends "./layout.html" %}
+
+{% load i18n %}
+{% load tz %}
+
+{% block title %}
+    {% blocktrans trimmed with cate_name=lists.0.category.name  %}
+        {{cate_name}}
+    {% endblocktrans %}    
+{% endblock %}
+
+
+{% block body %}
+  
+    <div class="container-fluid">
+        <section>
+            {% include "auctions/partials/page-header.html" with title=lists.0.category.name desc=lists.0.category.desc crumbs=slug var1=var1 var2=var2 %}
+            <div class="row mt-5 mb-1">
+                {% for listing in page_obj.object_list %}
+                    {% if not listing.is_expired %}
+                        <div class="col-lg-3 col-md-4 col-sm-12 mb-4">
+                            {% include "auctions/partials/card-v.html" with listing=listing %}
+                        </div>
+                    {% endif %}
+                {% empty %}
+                    <h5 class="my-5 text-center">
+                        <i class="fas fa-box-open fa-2x mb-2"></i>
+                        <p>{% trans "No Listings" %}</p>
+                    </h5>
+                {% endfor %}
+
+                {% include "auctions/partials/pagination.html" with paginator=paginator page_obj=page_obj %}
+
+            </div>
+        </section>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,241 @@
+{% extends "./layout.html" %}
+{% load i18n %}
+{% load temp_tags %}
+
+{% load tz %}
+
+{% block title %}
+    {% blocktrans trimmed with ttl=listing.title %}
+        {{ttl}}
+    {% endblocktrans %}
+{% endblock %}
+
+
+{% block body %}
+
+<div class="container-fluid">
+    <section class="pt-4">
+        {% include "auctions/partials/breadcrumb.html" with title="" desc="" crumbs=slug var1=var1 var2=var2 %}
+        <!--Section: Content-->
+        <div class="row mt-5 mb-1">
+            <div class="col-md-6 gx-4 mb-4">
+                <div class="bg-image hover-overlay ripple shadow-2-strong rounded-5 w-100 mb-4" data-mdb-ripple-color="light">
+                    <img src="{% get_listing_img_url listing listing.image %}" class="img-fluid w-100" style="max-height: 22rem;" loading="lazy" alt="{% trans 'image' %}"/>
+                    <a href="#!">
+                        <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                    </a>
+                </div>
+                {% if user.is_authenticated %}
+                    {% if listing.user.pk != user.pk %}
+                        <form action="{% url 'watchlist' user.username|slugify %}" method="post" class="mt-4 d-flex justify-content-end align-items-start">
+                            {% csrf_token %}
+                            <input type="hidden" name="listing" class="form-control" id="id_listing-{{listing.pk}}" value="{{listing.pk}}">
+                            <input type="hidden" name="next" class="form-control" value="{{request.get_full_path}}">
+                            <button type="submit" class="btn btn-sm btn-outline-primary btn-floating">
+                                <strong>
+                                    <i class="{% if listing.pk in request.session.user_wl_listings %}fas text-danger{% else %}far text-muted{% endif %} fa-heart"
+                                    data-mdb-toggle="tooltip" title="{% if listing.pk in request.session.user_wl_listings %}{% trans 'Remove from' %} {% else %}{% trans 'Add to' %} {% endif %}{% trans 'watchlist' %}"></i>
+                                </strong>
+                            </button>
+                        </form>
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'login' %}" type="button" class="btn btn-sm btn-outline-primary btn-floating ms-auto d-flex">
+                        <strong>
+                            <i class="{% if listing.pk in request.session.user_wl_listings %}fas text-danger{% else %}far text-muted{% endif %} fa-heart"
+                                data-mdb-toggle="tooltip" title="{% if listing.pk in request.session.user_wl_listings %}{% trans 'Remove from' %} {% else %}{% trans 'Add to' %} {% endif %}{% trans 'watchlist' %}"></i>
+                        </strong>
+                    </a>
+                {% endif %}
+
+                {% if user.is_authenticated and listing.user.pk == user.pk and not listing.is_closed %}
+                    <form action="{{listing.get_absolute_url}}" method="post" class="mt-4 d-flex justify-content-end align-items-start">
+                        {% csrf_token %}
+                            {% for field in close_listing_form %}
+                                {{field}}
+                            {% endfor %}
+                            <input type="hidden" class="form-control" name="nxt" value="?page={{request.GET.page}}&rt={{request.GET.rt}}&cmt={{request.GET.cmt}}">
+                            <button type="submit" class="btn btn-success w-100 my-5">
+                                <h6 class="mb-0">
+                                    <i class="fas fa-gavel"></i>
+                                    {% trans "Close" %}
+                                </h6>
+                                <p class="text-white mb-0 mt-1">
+                                    {% blocktrans trimmed with help_text=close_listing_form.closed.help_text %}
+                                        {{help_text}}
+                                    {% endblocktrans %}
+                                </p>
+                        </button>
+                    </form>
+                {% endif %}
+                {% if listing.winner %}
+                    <h5 class="text-center my-5 badge bg-success fs-5 mx-auto d-flex justify-content-center align-items-center w-50 rounded-pill shadow-1-strong">
+                        {% blocktrans trimmed with winner=listing.winner.username %}
+                            Winner is {{winner}}
+                        {% endblocktrans %}
+                    </h5>
+                {% endif %}
+            </div>
+
+            <div class="col-md-6 gx-5 mb-4">
+                <small class="small text-muted text-uppercase d-flex justify-content-between align-items-start">
+                    
+                    {% blocktrans trimmed with cate_name=listing.category.name %}
+                        {{cate_name}}
+                    {% endblocktrans %}
+                    
+                    {% if user.pk == listing.user.pk %}
+                        <a href="{% url 'listing-edit' listing.category.parent.slug listing.category.slug listing.slug %}" title="{% trans 'Edit' %}" data-mdb-toggle="tooltip" class="btn btn-outline-primary btn-sm btn-floating hover-shadow">
+                            <i class="fas fa-pen-alt"></i>
+                        </a>    
+                    {% endif %}
+                        
+                </small>
+                <h4 class="m-0">
+                    <strong>
+                        {% blocktrans trimmed with ttl=listing.title %}
+                            {{ttl}}
+                        {% endblocktrans %}
+                    </strong>
+                </h4>
+
+                <p class="d-flex justify-content-between align-items-center flex-wrap mb-3">
+                    <small class="justify-content-between align-items-center">
+                        <small data-mdb-toggle="tooltip" title="{% blocktrans trimmed with date_period=listing.published_date|timesince %}Published {{date_period}} ago{% endblocktrans %}">
+                            <i class="fas fa-calendar-check text-success"></i> 
+                            <span class="d-inline-block">{{listing.published_date|date:'d/m/Y h:i A e'}}</span>
+                        </small>
+                        &nbsp;-&nbsp;
+                        <small data-mdb-toggle="tooltip" title="{% trans 'Expires on' %}">
+                            <i class="fas fa-calendar-times text-warning"></i> 
+                            <span class="d-inline-block">{{listing.expiry_date|date:'d/m/Y h:i A e'}}</span>
+                        </small>
+                    </small>
+                    {% if not listing.is_expired %}
+                        <small>
+                            &nbsp;-&nbsp;
+                            <small>
+                                <span>{% trans "Expires in" %}</span>&nbsp;
+                                <i class="fas fa-stopwatch text-danger"></i> 
+                                <span class="d-inline-block">{{listing.expiry_date|timeuntil}}</span>
+                            </small>
+                        </small>
+                    {% else %}
+                        <small class="badge rounded-pill bg-danger shadow-sm mx-1">
+                            <small class="text-warning bg-primary rounded-circle d-inline-flex" style="vertical-align: bottom;">
+                                <i class="fas fa-sad-cry text-warning"></i>
+                            </small>
+                            {% trans "Expired" %}
+                        </small>
+                    {% endif %}
+                    {% if listing.will_expire_soon %}
+                        <small>
+                            <small class="badge rounded-pill bg-warning shadow-sm mx-1" style="vertical-align: bottom;">
+                                {% trans "Expires soon" %}
+                            </small>
+                        </small>
+                    {% endif %}
+                    {% if listing.is_new %}
+                        <small>
+                            <small class="badge rounded-pill bg-light shadow-sm mx-1" style="color:#dc3545;vertical-align: bottom;">
+                                <i class="fas fa-fire"></i> {% trans "New" %}
+                            </small>
+                        </small>
+                    {% endif %}
+                </p>
+                <p class="card-text d-flex justify-content-between align-items-center">
+                    <strong class="d-flex justify-content-between align-items-center">
+                        {% if listing.last_price > listing.price %}
+                            <del class="text-muted" title="Price">${{listing.price}}</del>
+                        {% else %}
+                            <span class="text-primary" title="Price">${{listing.price}}</span>
+                        {% endif %}
+
+                        {% if listing.is_closed %}
+                            <small class="mx-2">
+                                <small class="badge rounded-pill bg-success shadow-sm mx-1">
+                                    <i class="fas fa-gavel"></i> {% trans "Closed" %}
+                                </small>
+                            </small>
+                        {% endif %}
+                    </strong>
+                    <strong class="d-flex justify-content-around align-items-center">
+                        <small>
+                            <span class="badge rounded-pill bg-light text-dark mx-1 shadow-sm">
+                                {% if listing.last_price > listing.price %}<i class="fas fa-fire" style="color:#dc3545;"></i>{% endif %}
+                                {% trans "Latest bid" %}
+                            </span>
+                        </small>
+                        {% if listing.last_price > listing.price %}
+                            <span class="text-danger">${{listing.last_price}}</span>
+                        {% else %}
+                            <span class="text-muted">${{listing.last_price}}</span>
+                        {% endif %}
+                    </strong>
+                </p>
+
+                <div class="tabs-section">            
+                    <!-- Pills navs -->
+                    <ul class="nav nav-pills nav-justified mb-3" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link {% if req_tab == 'desc' %}active{% elif not req_tab %} active {% endif %}" id="desc-tab-link" href="?&rt=desc" role="tab" aria-controls="pills-1" aria-selected="false">
+                                {% trans "Description" %}
+                            </a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link d-flex justify-content-center align-items-center {% if req_tab == 'comments' %}active{% endif %}" id="comments-tab-link" href="?&rt=comments" role="tab" aria-controls="pills-2" aria-selected="false">
+                                {% trans "Comments" %}
+                                {% if comments %}
+                                    <span class="badge badge-pill bg-danger mx-1">
+                                        {% if comments|length < 99 %} 
+                                            {{comments|length}} 
+                                        {% else %} 
+                                            99+ 
+                                        {% endif %}
+                                    </span> 
+                                {% endif %}
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- Pills navs -->
+            
+                    <!-- Pills content -->
+                    <div class="tab-content">
+                        <div class="tab-pane fade {% if req_tab == 'desc' %}active show{% elif not req_tab %}active show{% endif %}" id="desc-tab" role="tabpanel" aria-labelledby="desc-tab">
+                            <p class="text-muted">
+                                {% if listing.desc %} 
+                                    {% blocktrans trimmed with desc=listing.desc %}
+                                        {{desc}}
+                                    {% endblocktrans %}
+                                {% else %} 
+                                    {% trans "No Description" %}
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="tab-pane fade {% if req_tab == 'comments' %}active show{% endif %}" id="comments-tab" role="tabpanel" aria-labelledby="comments-tab">
+                            <!-- comments -->
+                            {% include 'auctions/partials/comments.html' with comments=comments comments_form=comments_form listing=listing page_obj=page_obj paginator=paginator %}
+                        </div>
+                    </div>
+                    <!-- Pills content -->
+                </div>
+            </div>
+        </div>
+
+        <!-- bid form -->
+        {% if user.is_authenticated and user.pk != listing.user.pk and not listing.winner and not listing.is_closed %}
+          
+            {% include "auctions/partials/bid-form.html" with form=bid_form %}
+
+        {% endif %}
+
+    </section>
+
+    <hr class="my-4" />
+
+    <!--Section: related listings-->
+    {% include "auctions/partials/related-listings.html" with rel_listing=rel_listing %}
+
+</div>
+
+{% endblock %}

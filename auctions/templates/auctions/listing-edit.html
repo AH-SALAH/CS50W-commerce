@@ -1,0 +1,93 @@
+{% comment %}
+    {% extends "./layout.html" %}
+{% endcomment %} 
+
+{% load i18n %}
+{% load l10n %}
+{% load temp_tags %}
+
+
+    <section>
+        {% if from_modal != _('yeah') %}
+            {% include "auctions/partials/page-header.html" with title=_('Edit Listing') desc=desc crumbs=slug var1=user.username %}
+        {% endif %}
+            <div class="row mt-5 mb-1">
+            <div class="col-lg-6 col-md-12 col-sm-12 mb-4 mx-auto">
+                <div class="card text-start shadow h-100">
+                    <div class="card-body d-flex flex-column justify-content-start align-items-start flex-wrap">
+                        {% csrf_token %}
+                        {% if form %}
+                            
+                            {% for field in form %}
+                                {% if field.label|lower not in ''|add:_('title')|add:','|add:_('description')|add:','|add:_('is active')|split:',' %} 
+                                    <span class="{% if field.label|lower not in ''|add:_('title')|add:','|add:_('description')|add:','|add:_('is active')|split:',' %}mt-3{% endif %}">
+                                        {% blocktrans trimmed with label_tag=field.label_tag %}
+                                            {{label_tag}}
+                                        {% endblocktrans %}
+                                    </span> 
+                                {% endif %}
+                                {% if field.help_text %}
+                                    <sup>
+                                        {% blocktrans trimmed with help_text=field.help_text %}
+                                            {{help_text}}
+                                        {% endblocktrans %}
+                                    </sup>
+                                {% endif %}
+                                {% if field.field.widget.input_type == 'checkbox' %}
+                                    <div class="form-check form-switch d-flex justify-content-between align-items-center my-3">
+                                        {{field}}
+                                        {% blocktrans trimmed with label_tag=field.label_tag %}
+                                            {{label_tag}}
+                                        {% endblocktrans %}
+                                    </div>
+                                <!-- textarea -->
+                                {% elif not field.field.widget.input_type or field.label|lower == _('title') %}
+                                    <div class="form-outline {% if field.label|lower in ''|add:_('title')|add:','|add:_('description')|add:','|add:_('is active')|split:',' %}mt-3{% endif %} w-100">
+                                        {{field}}
+                                        {% blocktrans trimmed with label_tag=field.label_tag %}
+                                            {{label_tag}}
+                                        {% endblocktrans %}
+                                    </div>
+                                {% elif field.label|lower == _('image') %}
+                                    <div class="row justify-content-start align-items-center w-100">
+                                        <div class="col-md-4">
+                                            <img src="{% get_listing_img_url listing listing.image %}" alt="{% trans 'image' %}" class="img-fluid mb-2 img-thumbnail">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="file" name="{{field.html_name}}" value="{{field.value}}" class="{{field.field.widget.attrs.class}}" accept="image/*" id="{{field.id_for_label}}">
+                                            <!-- {{field}} -->                                                
+                                        </div>
+                                    </div>
+                                    
+                                {% comment %}
+                                    {% elif field.label|lower == _('start price') %}
+                                        <input type="number" name="{{field.html_name}}" value="{{field.value|unlocalize}}" step="0.01" min="{{field.field.widget.attrs.min|unlocalize}}" placeholder="{{field.field.widget.attrs.placeholder}}" class="{{field.field.widget.attrs.class}}" id="{{field.id_for_label}}" required="{{field.required}}">
+                                {% endcomment %}
+                                        
+                                {% else %}
+                                    <div class="{% if field.label|lower in ''|add:_('title')|add:','|add:_('description')|add:','|add:_('is active')|split:',' %} mt-3 {% endif %} w-100">
+                                        {{field}}
+                                    </div>
+                                {% endif %}
+                                
+                                {% for error in field.errors %}
+                                    <div class="row mb-2">
+                                        <div class="col-md-12">
+                                            <div class="text-danger">
+                                                {% blocktrans trimmed with error=error|escape %}
+                                                    {{error}}
+                                                {% endblocktrans %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                            
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+

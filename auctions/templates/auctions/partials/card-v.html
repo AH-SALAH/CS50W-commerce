@@ -1,0 +1,155 @@
+{% load i18n %}
+{% load tz %}
+
+{% load temp_tags %}
+
+<div class="card text-start shadow-1-strong h-100">
+    <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+        <img src="{% get_listing_img_url listing listing.image %}" class="img-fluid w-100" style="min-height: 200px;" alt="{% trans 'image' %}"/>
+        <a href="{{listing.get_absolute_url}}">
+            <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+        </a>
+        {% if listing.is_closed %}
+            <small class="m-2 position-absolute top-0 start-0">
+                <small class="badge rounded-pill bg-success shadow-sm mx-1">
+                    <i class="fas fa-gavel"></i> {% trans "Closed" %}
+                </small>
+            </small>
+        {% endif %}
+    </div>
+    <div class="card-body position-relative">
+        {% if user.is_authenticated and listing.user.pk == user.pk %}
+            <div class="float-btn-wrapper position-absolute top-0 end-0 mt-n4 mx-3">
+                <a href="{% url 'listing-edit' listing.category.parent.slug listing.category.slug listing.slug %}" data-mdb-toggle="tooltip" title="{% if listing.is_expired %}{% trans 'Renew' %}{% else %}{% trans 'Edit' %}{% endif %}" class="btn btn-info btn-floating">
+                    <span><i class="fas fa-{% if listing.is_expired %}redo{% else %}pen-alt{% endif %}"></i></span>
+                </a>
+            </div>
+        {% endif %}
+        <a href="{{listing.get_absolute_url}}" style="color:darkslateblue;" class="d-block">
+            <h6 class="card-title fw-bold" title="{{listing.title|title}}">
+            {% blocktrans trimmed with ttl=listing.title|title|truncatewords:4 %}
+                {{ttl}}
+            {% endblocktrans %}
+            </h6>
+            <small class="card-text" style="height: auto;">
+                {% blocktrans trimmed with desc=listing.desc|truncatewords:10 %}
+                    {{desc}}
+                {% endblocktrans %}
+            </small>
+        </a>
+    </div>
+    
+    <div class="card-footer">
+        <p class="card-text d-flex justify-content-between align-items-center flex-wrap">
+            <strong>
+                {% if listing.last_price > listing.price %}
+                    <del class="text-muted" data-mdb-toggle="tooltip" title="Price">${{listing.price}}</del>
+                {% else %}
+                    <span class="text-primary" data-mdb-toggle="tooltip" title="Price">${{listing.price}}</span>
+                {% endif %}
+            </strong>
+            <strong class="d-flex justify-content-around align-items-center">
+                <small>
+                    <span class="badge rounded-pill bg-light text-dark me-1 shadow-sm">
+                        {% if listing.last_price > listing.price %}<i class="fas fa-fire" style="color:#dc3545;"></i>{% endif %}
+                        {% trans "Latest bid" %}
+                    </span>
+                </small>
+                {% if listing.last_price > listing.price %}
+                    <span class="text-danger">${{listing.last_price}}</span>
+                {% else %}
+                    <span class="text-muted">${{listing.last_price}}</span>
+                {% endif %}
+            </strong>
+        </p>
+    </div>
+    <div class="card-footer">
+        <div class="card-text d-flex justify-content-between align-items-center flex-wrap flex-lg-nowrap">
+            <div class="bid_now_wrapper d-flex justify-content-between align-items-center flex-wrap flex-lg-nowrap">
+                {% if user.is_authenticated %}
+                    {% if not listing.is_closed %}
+                        {% if listing.user.pk == user.pk %}
+                            <a class="d-flex align-items-center me-1 my-1" href="#">
+                                <img src="https://ui-avatars.com/api/?background=random&rounded=true&name={{listing.user.username}}" class="rounded-circle" height="22" alt="{% trans 'user' %}" loading="lazy">
+                                <small class="badge rounded-pill bg-secondary shadow-sm mx-1">
+                                    {{user.username}}
+                                </small>
+                            </a>
+                        {% else %}
+                            <a href="{{listing.get_absolute_url}}" class="btn btn-primary rounded-pill me-1 my-1">
+                                <span>{% trans "Bid Now" %}</span>
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        <small class="badge rounded-pill bg-success shadow-sm me-1 my-1">
+                            {% blocktrans trimmed with username=listing.winner.username %}
+                                Winner is {{username}}
+                            {% endblocktrans %}
+                        </small>
+                    {% endif %}
+                {% else %}
+                    <a href="{{listing.get_absolute_url}}" class="btn btn-primary rounded-pill me-1 my-1">
+                        <span>{% trans "Bid Now" %}</span>
+                    </a>
+                {% endif %}
+
+                {% if listing.will_expire_soon %}
+                    <small class="badge rounded-pill bg-warning shadow-sm me-1 my-1">
+                        {% trans "Expires soon" %}
+                    </small>
+                {% endif %}
+                {% if listing.is_new %}
+                    <small class="badge rounded-pill bg-light shadow-sm me-1 my-1" style="color:#dc3545;">
+                        <i class="fas fa-fire"></i> {% trans "New" %}
+                    </small>
+                {% endif %}
+                {% if listing.is_expired %}
+                    <small class="badge rounded-pill bg-danger shadow-sm me-1 my-1">
+                        <span class="text-warning bg-primary rounded-circle d-inline-flex">
+                            <i class="fas fa-sad-cry text-warning"></i>
+                        </span>
+                        {% trans "Expired" %}
+                    </small>
+                {% endif %}
+            </div> 
+            {% if user.is_authenticated %}
+                {% if listing.user.pk != user.pk %}
+                    <form action="{% url 'watchlist' user.username|slugify %}" method="post" class="my-1">
+                        {% csrf_token %}
+                        <input type="hidden" name="listing" class="form-control" id="id_listing-{{listing.pk}}" value="{{listing.pk}}">
+                        <input type="hidden" name="next" class="form-control" value="{{request.get_full_path}}">
+                        <button type="submit" class="btn btn-sm btn-outline-primary btn-floating">
+                            <strong>
+                                <i class="{% if listing.pk in request.session.user_wl_listings %}fas text-danger{% else %}far text-muted{% endif %} fa-heart"
+                                data-mdb-toggle="tooltip" title="{% if listing.pk in request.session.user_wl_listings %}{% trans 'Remove from' %} {% else %}{% trans 'Add to' %} {% endif %}{% trans 'watchlist' %}"></i>
+                            </strong>
+                        </button>
+                    </form>
+                {% endif %}
+            {% else %}
+                <a href="{% url 'login' %}" type="button" class="btn btn-sm btn-outline-primary btn-floating">
+                    <strong>
+                        <i class="{% if listing.pk in request.session.user_wl_listings %}fas text-danger{% else %}far text-muted{% endif %} fa-heart"
+                            data-mdb-toggle="tooltip" title="{% if listing.pk in request.session.user_wl_listings %}{% trans 'Remove from' %} {% else %}{% trans 'Add to' %} {% endif %}{% trans 'watchlist' %}"></i>
+                    </strong>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card-footer">
+        <p class="card-text d-flex justify-content-between flex-wrap">
+            <small data-mdb-toggle="tooltip" title="{{listing.published_date|localtime}}">
+                <i class="fas fa-clock"></i> {{listing.published_date|localtime|timesince|truncatewords:3}}
+            </small>
+            <a data-mdb-toggle="tooltip" title="{% blocktrans trimmed with cate_name=listing.category.name %}{{cate_name}}{% endblocktrans %}" href="{{listing.category.get_absolute_url}}">
+                <small>
+                    <i class="fas fa-folder"></i>
+                    {% blocktrans trimmed with cate_name=listing.category.name|truncatewords:3  %}
+                        {{cate_name}}
+                    {% endblocktrans %}
+                </small>
+            </a>
+        </p>
+    </div>
+    
+</div>

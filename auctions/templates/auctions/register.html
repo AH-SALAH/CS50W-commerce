@@ -1,0 +1,69 @@
+{% extends "auctions/layout.html" %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "Register" %}
+{% endblock %}
+
+{% block body %}
+
+    <div class="row justify-content-center mt-5 pt-5">
+        <div class="col-xl-5 col-md-8">
+            <form class="bg-white rounded shadow-5-strong p-5 text-center" action="{% url 'register' %}" method="post">
+                <h2 class="mb-4">{% trans "Register" %}</h2>    
+                {% if message %}
+                    <div class="text-danger mb-3">
+                        {% blocktrans trimmed with msg=message %}
+                            {{msg}}
+                        {% endblocktrans %}
+                    </div>
+                {% endif %}
+                {% csrf_token %}
+                <!-- UserName input -->
+                <div class="form-outline mb-4">
+                    <input autofocus class="form-control" type="text" name="username" placeholder="{% trans 'User name' %}">
+                    <label class="form-label" for="username">{% trans "User name" %}</label>
+                </div>
+                
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                    <input class="form-control" type="email" name="email" placeholder="{% trans 'Email Address' %}">
+                    <label class="form-label" for="email">{% trans "Email" %}</label>
+                </div>
+
+                <!-- Password input -->
+                <div class="form-outline mb-4">
+                    <input class="form-control" type="password" name="password" placeholder="{% trans 'Password' %}">
+                    <label class="form-label" for="password">{% trans "Password" %}</label>
+                </div>
+                
+                <!-- Confirm Password input -->
+                <div class="form-outline mb-4">
+                    <input class="form-control" type="password" name="confirmation" placeholder="{% trans 'Confirm Password' %}">
+                    <label class="form-label" for="confirmation">{% trans "Confirm Password" %}</label>
+                </div>
+
+                <!-- 2 column grid layout for inline styling -->
+                <div class="row mb-4">
+                    <!-- <div class="col d-flex justify-content-center">
+                        <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="form1Example3" checked />
+                        <label class="form-check-label" for="form1Example3">
+                            Remember me
+                        </label>
+                        </div>
+                    </div> -->
+
+                    <div class="col text-center">
+                        <!-- Simple link -->
+                        {% trans "Already have an account?" %} <a href="{% url 'login' %}">{% trans "Log In here" %}</a>
+                    </div>
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" class="btn btn-primary btn-block">{% trans "Register" %}</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

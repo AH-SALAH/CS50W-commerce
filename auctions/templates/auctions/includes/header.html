@@ -1,0 +1,27 @@
+{% load i18n %}
+
+<header>
+
+    {% include "auctions/partials/nav.html" %}
+
+    <div class="toast-container position-fixed p-3 top-25 end-0" style="z-index: 1031;">
+        {% if messages %}
+            {% for message in messages %}
+                <div role="alert" aria-live="assertive" aria-atomic="true" data-mdb-animation="true" data-mdb-duration="5000" class="toast slide text-white {% if message.tags %}{{ message.tags }}{% endif %}">
+                    <div class="toast-header">
+                        <strong class="me-auto text-success">&checkmark;</strong>
+                        <button type="button" class="btn-close" data-mdb-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        {% blocktrans trimmed %}
+                            {{message}}
+                        {% endblocktrans %} 
+                    </div>
+                </div>
+            {% endfor %}
+
+        {% endif %}
+    </div>
+    
+</header>
+<!--Main Navigation-->

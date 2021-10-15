@@ -1,0 +1,108 @@
+{% load i18n %}
+{% load temp_tags %}
+
+{% if request.resolver_match.url_name != 'index'  %}
+<ul class="breadcrumb my-4">
+    {% block breadcrumbs %}
+         
+            <li class="breadcrumb-item badge rounded-pill bg-primary">
+                <a href="{% url 'index' %}"><i class="fas fa-home"></i> {% trans "Home" %}</a>
+            </li>
+        {% with crumbs|split:',' as crmbs %}
+
+                {% for crumb in crmbs %}
+                    {% if crumb %}
+                        {% if not forloop.last %}
+                            {% if crumb in 'categories-single,watchlist,my listings,'|add:_('Add listing')|add:','|add:_('Edit listing')|add:','|add:'listing-details'|split:',' %}
+                                {% if var1 and var2 and var3 %}
+                                    {% if var1 and var2 and crumb in 'categories-single,'|split:',' %}
+                                        <li class="breadcrumb-item badge rounded-pill bg-info ms-2 text-white br-123-12">
+                                            <a class="pe-none" href="{% url crumb var1 var2 %}">
+                                                {% blocktrans trimmed %}
+                                                    {{var1}}
+                                                {% endblocktrans %}
+                                            </a>                
+                                        </li>
+                                        <li class="breadcrumb-item badge rounded-pill bg-info ms-2 text-white br-123-12">
+                                            <a class="pe-auto" href="{% url crumb var1 var2 %}">
+                                                {% blocktrans trimmed %}
+                                                    {{var2}}
+                                                {% endblocktrans %}
+                                            </a>                
+                                        </li>
+                                    {% else %}
+                                        <!-- <li class="breadcrumb-item badge rounded-pill bg-info ms-2 text-white br-123">
+                                            <a class="pe-none" href="{% url crumb var1 var2 var3 %}">{{var1}}</a>                
+                                        </li> -->
+                                        <!-- <li class="breadcrumb-item badge rounded-pill bg-info ms-2 text-white br-123">
+                                            <a class="pe-auto" href="{% url crumb var1 var2 var3 %}">{{var2}}</a>                
+                                        </li> -->
+                                    {% endif %}
+                                {% elif var1 and var2 %}
+                                    <li class="breadcrumb-item badge rounded-pill bg-info ms-2 text-white br-12">
+                                        <a class="pe-none" href="{% url crumb var1 var2 %}">
+                                            {% blocktrans trimmed %}
+                                                {{var1}}
+                                            {% endblocktrans %}
+                                        </a>                
+                                    </li>
+                                {% endif %}
+                                {% if var1 and not var2 %}
+                                    <li class="breadcrumb-item badge rounded-pill bg-light active br-1-2">
+                                        {% if crumb in 'watchlist,my listings,'|add:_('Add listing')|add:','|add:_('Edit listing')|split:',' %}
+                                            {% blocktrans trimmed %}
+                                                {{crumb}}
+                                            {% endblocktrans %}
+                                        {% else %}
+                                            {% blocktrans trimmed %}
+                                                {{var1}}
+                                            {% endblocktrans %}        
+                                        {% endif %}
+                                    </li>
+                                {% elif var3 and not var2 %}
+                                    <li class="breadcrumb-item badge rounded-pill bg-light active br-3-2">
+                                        {% blocktrans trimmed %}
+                                            {{var3}}
+                                        {% endblocktrans %}          
+                                    </li>
+                                {% elif var2 and not var1 %}
+                                    <li class="breadcrumb-item badge rounded-pill bg-light active br-2-1">
+                                        {% blocktrans trimmed %}
+                                            {{var2}}
+                                        {% endblocktrans %} 
+                                    </li>
+                                {% else %}
+                                    {% if not var3 %}
+                                        <li class="breadcrumb-item badge rounded-pill bg-light active br--3">
+                                            {% blocktrans trimmed %}
+                                                {{var2}}
+                                            {% endblocktrans %}
+                                        </li>
+                                    {% endif %}
+                                {% endif %}
+                            {% else %}
+                                <li class="breadcrumb-item badge rounded-pill bg-info ms-2 text-white">                                
+                                    <a href="{% url crumb %}">
+                                        {% blocktrans trimmed %}
+                                            {{crumb}}
+                                        {% endblocktrans %}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% else %}
+                            <li class="breadcrumb-item badge rounded-pill bg-light active" style="line-height: 1;">
+                                <small>
+                                    {% blocktrans trimmed %}
+                                        {{crumb}}
+                                    {% endblocktrans %}
+                                </small>
+                            </li>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            
+            {% endwith %}
+        
+    {% endblock %}
+</ul>
+{% endif %}

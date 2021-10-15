@@ -1,0 +1,93 @@
+{% load i18n %}
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg fixed-top bg-light navbar-light">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'index' %}">
+            <i class="fas fa-gavel"></i>&nbsp; {% trans "Auctions" %}
+        </a>
+        <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
+            data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link mx-2" href="{% url 'listing-add' %}">
+                        <i class="fas fa-plus-circle"></i>
+                        <span class="ps-0">{% trans "Add Listing" %}</span>
+                    </a>
+                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link mx-2" href="{% url 'my-listings' request.user.username|slugify %}">
+                            <i class="fas fa-list"></i>
+                            {% if request.session.user_listings_count %}
+                                <span class="badge rounded-pill badge-notification bg-danger">{% if request.session.user_listings_count > 99 %} 99+ {% else %}{{request.session.user_listings_count}}{% endif %}</span>
+                            {% endif %}
+                            <span class="{% if request.session.user_listings_count %}ps-2{% endif %}">{% trans "My Listings" %}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mx-2" href="{% url 'watchlist' request.user.username|slugify %}">
+                            <i class="fas fa-heart"></i>
+                            {% if request.session.user_wl_listings_count %}
+                                <span class="badge rounded-pill badge-notification bg-danger">{% if request.session.user_wl_listings_count > 99 %} 99+ {% else %}{{request.session.user_wl_listings_count}}{% endif %}</span>
+                            {% endif %}
+                            <span class="{% if request.session.user_wl_listings_count %}ps-2{% endif %}">{% trans "Watchlist" %}</span>
+                        </a>
+                    </li>
+                    {% if user.is_superuser %}
+                        <li class="nav-item">
+                            <a class="nav-link mx-2" href="{% url 'admin:index' %}" target="_blank">
+                                <i class="fas fa-external-link-alt"></i>
+                                <span>{% trans "Admin" %}</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endif %}
+                <li class="nav-item ms-3 d-flex align-items-center">
+                    {% if user.is_authenticated %}
+                        <a class="nav-link d-sm-flex align-items-sm-center me-3" href="#">
+                            <img src="https://ui-avatars.com/api/?background=ddd&rounded=true&name={{user.username}}" class="rounded-circle" height="22"
+                                alt="user" loading="lazy" />
+                            <strong class="d-none d-sm-block ms-1">{{user.username}}</strong>
+                        </a>
+                        <a class="btn btn-light btn-rounded" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> {% trans "Sign out" %}</a>
+                    {% else %}
+                        <a class="btn btn-primary btn-rounded me-3" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> {% trans "Sign in" %}</a>
+                        <a class="btn btn-primary btn-rounded" href="{% url 'register' %}"><i class="fas fa-user-check"></i> {% trans "Register" %}</a>
+                    {% endif %}
+                    <div class="position-relative">
+                        <a
+                            class="text-reset ms-3 dropdown-toggle hidden-arrow btn btn-sm btn-floating"
+                            href="#"
+                            id="navbarDropdownMenuLink_lang"
+                            role="button"
+                            data-mdb-toggle="dropdown"
+                            aria-expanded="false"
+                        >
+                            <i class="fas fa-globe-africa" data-mdb-toggle="tooltip" title="{% trans 'Language' %}" ></i>
+                        </a>
+                        <ul
+                            {% get_current_language_bidi as LANGUAGE_BIDI %}
+                            class="dropdown-menu dropdown-menu-{% if LANGUAGE_BIDI %}start{% else %}end{% endif %}"
+                            aria-labelledby="navbarDropdownMenuLink_lang"
+                        >
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {% get_available_languages as LANGUAGES %}
+                            {% get_language_info_list for LANGUAGES as languages %}
+                            {% for language in languages %}
+                                <li>
+                                    <a class="dropdown-item {% if language.code == LANGUAGE_CODE %}active disabled{% endif %}" href="{% url 'set_lang' language.code %}?nxt={{request.get_full_path}}">{{ language.name_local }} ({{ language.code }})</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- Navbar -->

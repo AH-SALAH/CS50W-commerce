@@ -1,0 +1,80 @@
+{% extends "./layout.html" %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "Add New Listing" %} 
+{% endblock %}
+
+{% load temp_tags %}
+
+{% block body %}
+
+    <section>
+        {% include "./partials/page-header.html" with title=_('Add New Listing') desc=desc crumbs=slug var1=user.username %}
+        <div class="row mt-5 mb-1">
+            <div class="col-lg-6 col-md-12 col-sm-12 mb-4 mx-auto">
+                <div class="card text-start shadow h-100">
+                    <div class="card-body">
+                        <form action="{% url 'listing-add' %}" method="post" enctype="multipart/form-data" class="d-flex flex-column justify-content-start align-items-start flex-wrap">
+                            {% csrf_token %}
+                            {% for field in form %}
+                                {% if field.label|lower not in ''|add:_('title')|add:','|add:_('description')|add:','|add:_('is active')|split:',' %} 
+                                    <span class="{% if field.label|lower not in ''|add:_('title')|add:','|add:_('description')|add:','|add:_('is active')|split:',' %} mt-3 {% endif %}">
+                                        {% blocktrans trimmed with label_tag=field.label_tag %}
+                                            {{label_tag}}
+                                        {% endblocktrans %}
+                                    </span> 
+                                {% endif %}
+                                {% if field.help_text %}
+                                    <sup>
+                                        {% blocktrans trimmed with help_text=field.help_text %}
+                                            {{help_text}}
+                                        {% endblocktrans %}
+                                    </sup>
+                                {% endif %}
+                                {% if field.field.widget.input_type == 'checkbox' %}
+                                    <div class="form-check form-switch d-flex justify-content-between align-items-center my-3">
+                                        {{field}}
+                                        {% blocktrans trimmed with label_tag=field.label_tag %}
+                                            {{label_tag}}
+                                        {% endblocktrans %}
+                                    </div>
+                                <!-- textarea -->
+                                {% elif not field.field.widget.input_type or field.label|lower == _('title') %}
+                                    <div class="form-outline {% if field.label|lower in ''|add:_('title')|add:','|add:_('description')|add:','|add:_('is active')|split:',' %}mt-3{% endif %} w-100">
+                                        {{field}}
+                                        {% blocktrans trimmed with label_tag=field.label_tag %}
+                                            {{label_tag}}
+                                        {% endblocktrans %}
+                                    </div>
+                                {% else %}
+                                    <div class="{% if field.label|lower in ''|add:_('title')|add:','|add:_('description')|add:','|add:_('is active')|split:',' %} mt-3 {% endif %} w-100">
+                                        {{field}}
+                                    </div>
+                                {% endif %}
+                                {% for error in field.errors %}
+                                    <div class="row mb-2">
+                                        <div class="col-md-12">
+                                            <div class="text-danger">
+                                                {% blocktrans trimmed with error=error|escape %}
+                                                    {{error}}
+                                                {% endblocktrans %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                            <div class="submit-container d-flex justify-content-end align-items-center w-100">
+                                <button type="submit" class="btn btn-sm btn-outline-primary my-3">
+                                    {% trans "Submit" %}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

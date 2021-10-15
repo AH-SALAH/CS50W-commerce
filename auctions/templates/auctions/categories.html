@@ -1,0 +1,125 @@
+{% extends "./layout.html" %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "Categories" %}
+{% endblock %}
+
+{% block body %}
+  
+    <div class="container-fluid">
+        <section>
+            {% include "auctions/partials/page-header.html" with title=_('Categories') desc=_('Choose to go to it\'s Contents') crumbs=_('categories') %}
+            
+            <div class="row row-cols-1 row-cols-md-1 mt-3 g-4 w-75 mx-auto">
+                {% for c in categories %}
+                    {% if not c.parent %}
+                                                    
+                        <div class="col">
+                            <a class="pe-none" href="{% url 'categories-single' c.slug %}" style="color:inherit;">
+                                <div class="hover-overlay card" style="background: var(--bs-gray);color: #fff;">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between p-md-1">
+                                            <div class="d-flex flex-row">
+                                                <div class="align-self-center">
+                                                    <i class="far fa-folder-open text-warning fa-3x me-4"></i>
+                                                </div>
+                                                <div>
+                                                    <h4>
+                                                        {% blocktrans trimmed with name=c.name %}
+                                                            {{name}}
+                                                        {% endblocktrans %}
+                                                    </h4>
+                                                    <p class="mb-0">
+                                                        {% blocktrans trimmed with desc=c.desc %}
+                                                            {{desc}}
+                                                        {% endblocktrans %}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="align-self-center">
+                                                <h2 class="h1 mb-0">
+                                                    {% for obj in cate_lists %}
+                                                        {% for k, v in obj.items %}
+                                                            {% if c.pk == k %}
+                                                                <span class="badge bg-danger ms-2"> 
+                                                                    {{v|default:0}}
+                                                                </span>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endfor %} 
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="mask"
+                                        style="
+                                        background: linear-gradient(
+                                            45deg,
+                                            rgba(57, 192, 237, 0.3),
+                                            rgba(91, 14, 214, 0.2) 100%
+                                        );
+                                        "
+                                    ></div>
+                                </div>
+                            </a>
+                    
+                            {% for c2 in categories %}
+                                {% if c2.parent %}
+                                    {% if c2.parent.pk == c.pk %}
+
+                                            <div class="col-xl-11 col-md-11 mb-4 mt-n3 ms-4">
+                                                <a href="{% url 'categories-single' c2.parent.slug c2.slug %}" style="color:inherit;">
+                                                    <div class="hover-shadow card shadow-sm">
+                                                        <div class="card-body">
+                                                            <div class="d-flex justify-content-between p-md-1">
+                                                                <div class="d-flex flex-row">
+                                                                    <div class="align-self-center">
+                                                                        <i class="far fa-folder text-warning fa-3x me-4"></i>
+                                                                    </div>
+                                                                    <div>
+                                                                        <h4>
+                                                                            {% blocktrans trimmed with name=c2.name %}
+                                                                                {{name}}
+                                                                            {% endblocktrans %}
+                                                                        </h4>
+                                                                        <p class="mb-0">
+                                                                            {% blocktrans trimmed with desc=c2.desc %}
+                                                                                {{desc}}
+                                                                            {% endblocktrans %}
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="align-self-center">
+                                                                    <h2 class="h1 mb-0">
+                                                                        {% for obj in cate_lists %}
+                                                                            {% for k, v in obj.items %}
+                                                                                {% if c2.pk == k %}
+                                                                                    <span class="badge bg-danger ms-2"> 
+                                                                                        {{v|default:0}}
+                                                                                    </span>
+                                                                                {% endif %}
+                                                                            {% endfor %}
+                                                                        {% endfor %} 
+                                                                    </h2>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+                    {% endif %}
+                {% endfor %}
+            </div>
+            
+        </section>
+    </div>
+
+{% endblock %}

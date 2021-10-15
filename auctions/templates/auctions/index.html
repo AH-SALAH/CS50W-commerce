@@ -1,0 +1,208 @@
+{% extends "auctions/layout.html" %}
+
+{% comment %}
+{% load humanize %}
+{% endcomment %}
+
+{% load i18n %}
+{% load tz %}
+
+
+{% block body %}
+<!--Section: Content-->
+<section>
+
+    {% include "auctions/partials/page-header.html" with title=_("Auctions Listings Service") desc="" %}
+
+    <h4 class="my-4" id="active-listings-title"><strong>{% trans "Active Listings" %}</strong></h4>
+
+    <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+            <!-- Tab navs -->
+            <div class="nav flex-column nav-pills text-center" id="v-pills-tab" role="tablist"
+                aria-orientation="vertical">
+                <a class="nav-link {% if req_cate == _('All') %}active{% endif %}" 
+                    id="v-pills-all-tab"
+                    data-mdb-toggle="#" 
+                    href="{% url 'index' %}#active-listings-title"
+                    role="tab"
+                    aria-controls="v-pills-all" 
+                    aria-selected="{% if req_cate == _('All') %}true{% else %}false{% endif %}"
+                >
+                    {% trans "All" %}
+                    <span class="badge bg-danger ms-2"> 
+                        {% if ttl_cate_lists > 999 %}
+                            {{'999+'}}
+                        {% else %}
+                            {{ttl_cate_lists}}
+                        {% endif %}
+                    </span>   
+                </a>
+                {% for cate in has_no_parent_cate_list %}
+                    <div class="nav-link py-2 {% if req_cate == cate.slug %}active{% endif %}" 
+                            id="v-pills-{{cate.slug}}-tab"
+                            data-mdb-toggle="#" 
+                            href="javascript:;" 
+                            role="tab"
+                            aria-controls="v-pills-{{cate.slug}}" 
+                            aria-selected="{% if req_cate == cate.slug %}true{% else %}false{% endif %}"
+                            style="background-color:#888293;color:#fff;"
+                        >
+                            {% blocktrans trimmed with cate_name=cate.name %}
+                                {{cate_name}}
+                            {% endblocktrans %}
+
+                            {% for obj in cate_lists %}
+                                {% for k, v in obj.items %}
+                                    {% if cate.pk == k %}
+                                        <span class="badge bg-danger ms-2"> 
+                                            {{v|default:0}}
+                                        </span>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}   
+                    </div>
+                    {% for cate2 in has_parent_cate_list %}
+                        {% if cate2.parent.pk == cate.pk %}
+                        
+                            <a class="nav-link my-1 py-2 px-3 w-75 mx-auto {% if req_cate == cate2.slug %}active{% endif %}" 
+                                id="v-pills-{{cate2.slug}}-tab"
+                                data-mdb-toggle="#" 
+                                href="{% url 'index' %}?cate={{cate2.slug}}#active-listings-title" 
+                                role="tab"
+                                aria-controls="v-pills-{{cate2.slug}}" 
+                                aria-selected="{% if req_cate == cate2.slug %}true{% else %}false{% endif %}"
+                            >
+                                {% blocktrans trimmed with cate_name=cate2.name %}
+                                    {{cate_name}}
+                                {% endblocktrans %}
+
+                                {% for obj in cate_lists %}
+                                    {% for k, v in obj.items %}
+                                        {% if cate2.pk == k %}
+                                            <span class="badge bg-danger ms-2"> 
+                                                {% if v > 999 %}
+                                                    {{'999+'}}
+                                                {% else %}
+                                                    {{v|default:0}}
+                                                {% endif %}
+                                            </span>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endfor %}   
+                            </a>
+
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                <a class="text-center my-4" href="{% url 'categories' %}">{% trans "See all" %}</a>
+            </div>
+            <!-- Tab navs -->
+        </div>
+
+        <div class="col-lg-9 col-md-6 col-sm-12 mb-4">
+           <!-- filter -->
+            {% include "auctions/partials/filter.html" with sort_form=sort_form %}
+
+            <!-- Tab content -->
+            <div class="tab-content" id="v-pills-tabContent">
+                {% if req_cate != _('All') %}
+                    {% for cate in has_parent_cate_list %}
+                        <div class="tab-pane fade {% if req_cate == cate.slug %}show active{% endif %}" id="v-pills-{{cate.slug}}"
+                        role="tabpanel" aria-labelledby="v-pills-{{cate.slug}}-tab">
+                    
+                            <div class="row">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h5>
+                                        
+                                        {% blocktrans trimmed with cate_name=cate.name|capfirst %}
+                                            {{cate_name}}
+                                        {% endblocktrans %}
+                                        
+                                        {% for obj in cate_lists %}
+                                            {% for k, v in obj.items %}
+                                                {% if cate.pk == k %}
+                                                    <span class="badge bg-danger ms-1 badge-notification rounded-pill"> 
+                                                        {% if v > 999 %}
+                                                            {{'999+'}}
+                                                        {% else %}
+                                                            {{v|default:0}}
+                                                        {% endif %}
+                                                    </span>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endfor %}  
+                                    </h5>
+                                    <a class="text-end" href="{% url 'categories-single' cate.parent.slug|default:cate.slug cate.slug %}">{% trans "See all" %}</a>
+                                </div>
+                                {% for listing in page_obj.object_list %}
+                                    {% if listing.category.pk == cate.pk %}
+                                    
+                                        <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                                            {% include "auctions/partials/card-v.html" with listing=listing %}
+                                        </div>
+
+                                    {% endif %}
+                                {% empty %}
+                                    <h5 class="my-5 text-center">
+                                        <i class="fas fa-box-open fa-2x mb-2"></i>
+                                        <p>{% trans "No Listings" %}</p>
+                                    </h5>
+                                {% endfor %}
+
+                                {% include "auctions/partials/pagination.html" with paginator=paginator page_obj=page_obj extra_param='&cate='|add:cate.slug|add:'#active-listings-title' %}
+
+                            </div>
+
+                        </div>
+                    {% endfor %}
+                {% else %}
+
+                    <div class="tab-pane fade {% if req_cate == _('All') %}show active{% endif %}" id="v-pills-all"
+                    role="tabpanel" aria-labelledby="v-pills-all-tab">
+                
+                        <div class="row">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h5>
+                                    
+                                    {% blocktrans trimmed %}
+                                        {{req_cate}}
+                                    {% endblocktrans %}
+                                    
+                                    <span class="badge bg-danger ms-1 badge-notification rounded-pill"> 
+                                        {% if ttl_cate_lists > 999 %}
+                                            {{'999+'}}
+                                        {% else %}
+                                            {{ttl_cate_lists}}
+                                        {% endif %}
+                                    </span>
+                                </h5>
+                                <a class="text-end" href="{% url 'categories' %}">{% trans "See all" %}</a>
+                            </div>
+                            {% for listing in page_obj.object_list %}
+                                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                                    {% include "auctions/partials/card-v.html" with listing=listing %}
+                                </div>
+                            {% empty %}
+                                <h5 class="my-5 text-center">
+                                    <i class="fas fa-box-open fa-2x mb-2"></i>
+                                    <p>{% trans "No Listings" %}</p>
+                                </h5>
+                            {% endfor %}
+
+                            {% include "auctions/partials/pagination.html" with paginator=paginator page_obj=page_obj extra_param='#active-listings-title' %}
+
+                        </div>
+
+                    </div>
+                {% endif %}
+            </div>
+            <!-- Tab content -->
+        </div>
+    </div>
+
+
+</section>
+<!--Section: Content-->
+
+{% endblock %}

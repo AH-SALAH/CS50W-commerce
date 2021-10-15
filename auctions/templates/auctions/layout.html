@@ -1,0 +1,71 @@
+{% load static %}
+{% load i18n %}
+
+<!-- get lang needed info -->
+{% get_current_language as LANGUAGE_CODE %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+
+<!DOCTYPE html>
+<html lang="{{LANGUAGE_CODE}}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>{% trans "Auctions" %} | {% block title %}{% trans "Home" %}{% endblock %}</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
+    <!-- MDB -->
+    {% if LANGUAGE_BIDI %}
+        <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'auctions/css/mdb.rtl.min.css' %}" />
+    {% else %}
+        <!-- Google Fonts Roboto -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
+        <link rel="stylesheet" href="{% static 'auctions/css/mdb.min.css' %}" />
+    {% endif %}
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="{% static 'auctions/css/styles.css' %}" />
+</head>
+<body>
+
+    {% include "./includes/header.html" %}
+    
+    {% block breadcrumbs %}
+    {% endblock %}
+    
+    <!--Main layout-->
+    <main class="my-5 pt-1">
+        <div class="container">
+            {% block body %}
+            {% endblock %}
+        </div>
+    </main>
+    <!--Main layout-->
+
+    {% include "./includes/footer.html" %}
+    
+    <!-- bs toast component because it's not in mdb free v -->
+    <script type="text/javascript" src="{% static 'auctions/js/bs-toast/dom/data.js' %}"></script>
+    <script type="text/javascript" src="{% static 'auctions/js/bs-toast/dom/event-handler.js' %}"></script>
+    <script type="text/javascript" src="{% static 'auctions/js/bs-toast/dom/manipulator.js' %}"></script>
+    <script type="text/javascript" src="{% static 'auctions/js/bs-toast/base-component.js' %}"></script>
+    <script type="text/javascript" src="{% static 'auctions/js/bs-toast/toast.js' %}"></script>
+    <!-- MDB -->
+    <script type="text/javascript" src="{% static 'auctions/js/mdb.min.js' %}"></script>
+    
+    {% if messages %}
+        <!-- bs toast js -->
+        <script>
+            let toastElList = [].slice.call(document.querySelectorAll('.toast'))
+            if(toastElList){
+                let toastList = toastElList.map(function (toastEl, i) {
+                    return new Toast(toastEl)
+                });
+                toastList.map(function (toastEl, i) {
+                    toastEl.show();
+                });
+            }
+        </script>
+    {% endif %}
+</body>
+</html>

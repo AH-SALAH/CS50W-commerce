@@ -1,0 +1,503 @@
+{% load i18n %}
+
+<!-- comments -->
+<div class="card border shadow-0 rounded-0 mb-3">
+    <div class="d-flex g-0">
+        <div class="col-md-12">
+            <div class="card-body px-3 pt-2">
+                {% if comments %} 
+                    <p class="mb-3">
+                        {% blocktrans count comment_len_count=comments|length trimmed %}
+                            {{comment_len_count}} comment
+                        {% plural %}
+                            {{comment_len_count}} comments
+                        {% endblocktrans %}
+                    </p>
+                {% else %}
+                    <p class="mb-3 text-center">{% trans "No comments yet" %}</p>
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                    {% if not listing.is_closed %}
+                        <div class="d-flex justify-content-start align-items-start">
+                            <a href="#!">
+                                <img src="https://ui-avatars.com/api/?background=random&rounded=true&name={{user.username}}" class="rounded-circle" height="35" alt="{% trans 'user' %}" loading="lazy">
+                            </a>
+                            <form action="{% url 'add-comment' %}" method="post" class="mb-3 ps-3 w-100 d-flex flex-column justify-content-start align-items-start">
+                                {% csrf_token %}
+                                {% for field in comments_form %}
+                                    <!-- textarea -->
+                                    {% if not field.field.widget.input_type %}
+                                        <div class="form-outline mb-3 w-100" style="background: gainsboro;">
+                                            {{field}}
+                                            {% blocktrans trimmed with label_tag=field.label_tag %}
+                                                {{label_tag}}
+                                            {% endblocktrans %}
+                                            
+                                            {% for error in field.errors %}
+                                                <div class="row mb-2">
+                                                    <div class="col-md-12">
+                                                        <div class="text-danger">
+                                                            {% blocktrans trimmed with error=error|escape %}
+                                                                {{error}}
+                                                            {% endblocktrans %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{field}}
+                                        {% for error in field.errors %}
+                                            <div class="row mb-2">
+                                                <div class="col-md-12">
+                                                    <div class="text-danger">
+                                                        {% blocktrans trimmed with error=error|escape %}
+                                                            {{error}}
+                                                        {% endblocktrans %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}    
+                                {% endfor %}
+                                <input type="hidden" class="form-control" name="nxt" value="rt={{request.GET.rt}}">
+                                <button type="submit" class="btn btn-outline-primary d-flex ms-auto">{% trans "Submit" %}</button>
+                            </form>
+                        </div>
+                    {% else %}
+                        <p class="text-center my-2">{% trans "Auction Closed, hence Comments" %}</p>
+                    {% endif %}
+                {% else %}
+                    <div class="text-center w-100 mb-3">
+                        <a class="btn btn-primary text-center" href="{% url 'login' %}" role="button">{% trans "Sign In" %}</a>
+                    </div>
+                {% endif %}
+                
+                {% if comments %}
+                    <hr>
+                    {% for c in page_obj.object_list %}
+                        <div class="d-flex flex-column">
+                            <div class="d-flex">
+                                <a href="#!" class="{% if not forloop.last or c.parent_comment.all.count %}first-link{% else %}first-link-last-ch{% endif %}">
+                                    <img src="https://ui-avatars.com/api/?background=random&rounded=true&name={{c.user.username}}" class="rounded-circle" height="35" alt="{% trans 'user' %}" loading="lazy">
+                                </a>
+                                <div class="d-flex justify-content-start align-items-start flex-column w-100 ps-3 pb-3 pt-2" style="z-index: 1;">
+                                    <div class="w-100 d-flex justify-content-between align-items-start">
+                                        <div class="d-flex justify-content-start align-items-start">
+                                            <a href="#!" class="d-flex" style="z-index: 1;">
+                                                {% if c.user.pk == listing.user.pk %}
+                                                    <small class="badge rounded-pill bg-secondary">{{c.user.username}}</small>
+                                                {% else %}
+                                                    <small class="link-dark badge rounded-pill mb-0 font-weight-bold">{{c.user.username}}</small>
+                                                {% endif %}
+                                            </a>
+                                            <p class="mb-0 small text-muted mx-2 d-flex" data-mdb-toggle="tooltip" title="{{c.date|date:'d/m/Y h:i A e'}}"><small>{% blocktrans trimmed with date=c.date|timesince context "timesince ago e.g 6 days 'ago'" %}{{date}} ago{% endblocktrans %}</small></p>
+                                        </div>
+                                        {% if not listing.is_closed and user.pk == c.user.pk %}
+                                            <div class="dropdown open">
+                                                <button class="btn btn-sm btn-outline-dark btn-floating border-0" type="button" id="triggerId-{{c.pk}}" data-mdb-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        <i class="fas fa-ellipsis-v"></i>
+                                                        </button>
+                                                <div class="dropdown-menu" aria-labelledby="triggerId-{{c.pk}}">
+                                                    <a class="dropdown-item" href="#" onclick="edit_comment(event)">{% trans "Edit" %}</a>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="comment-body text-muted py-2">
+                                        {{c.content}}
+                                    </div>
+                                    <!-- Buttons trigger collapse -->
+                                    <div class="d-flex mb-3">
+                                        <a
+                                            class="reply text-muted small me-3 d-flex justify-content-start align-items-center"
+                                            data-mdb-toggle="collapse"
+                                            href="#comment-{{c.pk}}"
+                                            role="button"
+                                            aria-expanded="false"
+                                            aria-controls="comment-{{c.pk}}"
+                                        >
+                                            <small>{% trans "Reply" %} <i class="fas fa-reply"></i></small>
+                                        </a>
+                                        
+                                        {% if c.parent_comment.all.count %}
+                                            <a
+                                                class="show-reply small"
+                                                data-mdb-toggle="collapse"
+                                                href="#show-reply-comment-{{c.pk}}"
+                                                role="button"
+                                                aria-expanded="{% if c.pk|slugify in cmt_edit %}true{% else %}false{% endif %}"
+                                                aria-controls="show-reply-comment-{{c.pk}}"
+                                            >
+                                                <small>{% trans "Show Replies" %}</small> 
+                                                <span class="badge rounded-pill badge-notification bg-danger mx-1">
+                                                    {% if c.parent_comment.all.count < 99 %} 
+                                                        {{c.parent_comment.all.count}} 
+                                                    {% else %} 
+                                                        99+ 
+                                                    {% endif %}
+                                                </span>
+                                            </a>
+                                        {% endif %}
+                                            
+                                    </div>
+                                    
+                                    <!-- Collapsed content -->
+                                    <div class="collapse w-100" id="comment-{{c.pk}}">
+                                        {% if user.is_authenticated %}
+                                            {% if not listing.is_closed %}
+                                                <form action="{% url 'add-comment' %}" method="post" class="mb-3">
+                                                    {% csrf_token %}
+                                                    {% for field in comments_form %}
+                                                        <!-- textarea -->
+                                                        {% if not field.field.widget.input_type %}
+                                                            <div class="form-outline my-3 w-100">
+                                                                {{field}}
+                                                                {% blocktrans trimmed with label_tag=field.label_tag %}
+                                                                    {{label_tag}}
+                                                                {% endblocktrans %}
+                                                                {% for error in field.errors %}
+                                                                    <div class="row mb-2">
+                                                                        <div class="col-md-12">
+                                                                            <div class="text-danger">
+                                                                                {% blocktrans trimmed with error=error|escape %}
+                                                                                    {{error}}
+                                                                                {% endblocktrans %}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                {% endfor %}
+                                                            </div>
+                                                        {% else %}
+                                                            {{field}}
+                                                            {% for error in field.errors %}
+                                                                <div class="row mb-2">
+                                                                    <div class="col-md-12">
+                                                                        <div class="text-danger">
+                                                                            {% blocktrans trimmed with error=error|escape %}
+                                                                                {{error}}
+                                                                            {% endblocktrans %}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            {% endfor %}
+                                                        {% endif %}    
+                                                    {% endfor %}
+                                                    <input type="hidden" class="form-control" name="parent" value="{{c.pk}}">
+                                                    <input type="hidden" class="form-control" name="nxt" value="page={{request.GET.page}}&rt={{request.GET.rt}}&cmt={{c.pk}}">
+                                                    <button type="submit" class="btn btn-outline-primary d-flex ms-auto">{% trans "Submit" %}</button>
+                                                </form>
+                                            {% else %}
+                                                <p class="text-center my-2">{% trans "Auction Closed, hence Comments" %}</p>
+                                            {% endif %}
+                                        {% else %}
+                                            <div class="text-center w-100 mb-3">
+                                                <a class="btn btn-primary text-center" href="{% url 'login' %}" role="button">{% trans "Sign In" %}</a>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    {% for cc in c.parent_comment.all %}
+                                        <!-- {% if cc.parent and cc.parent.pk == c.pk %} -->
+                                            <div class="collapse w-100 {% if c.pk|slugify in cmt_edit %}show{% endif %}" id="show-reply-comment-{{c.pk}}">
+                                                
+                                                <!-- child comment -->
+                                                <div class="d-flex bg-light justify-content-start align-items-start flex-column w-100">
+                                                    <div class="d-flex w-100 p-2 pb-0 {% if forloop.last %}pt-0{% endif %}">
+                                                        <a href="#!" class="{% if not forloop.last or cc.parent_comment.all.count %}comment-img-link{% else %}last-link{% endif %}">
+                                                            <img src="https://ui-avatars.com/api/?background=random&rounded=true&name={{cc.user.username}}" class="rounded-circle" height="35" alt="{% trans 'user' %}" loading="lazy">
+                                                        </a>
+                                                        <div class="d-flex justify-content-start align-items-start flex-column w-100 ps-3 pt-2" style="z-index: 1;">
+                                                            <div class="w-100 d-flex justify-content-between align-items-start">
+                                                                <div class="d-flex justify-content-start align-items-start">                                                                                    
+                                                                    <a href="#!" class="d-flex" style="z-index: 1;">
+                                                                        {% if cc.user.pk == listing.user.pk %}
+                                                                            <small class="badge rounded-pill bg-secondary">{{cc.user.username}}</small>
+                                                                        {% else %}
+                                                                            <small class="link-dark badge rounded-pill mb-0 font-weight-bold">{{cc.user.username}}</small>
+                                                                        {% endif %}
+                                                                    </a>
+                                                                    <p class="mb-0 small text-muted mx-2 d-flex" data-mdb-toggle="tooltip" title="{{cc.date|date:'d/m/Y h:i A e'}}"><small>{% blocktrans trimmed with date=cc.date|timesince context "timesince ago e.g 6 days 'ago'" %}{{date}} ago{% endblocktrans %}</small></p>
+                                                                </div>
+                                                                {% if not listing.is_closed and user.pk == cc.user.pk %}
+                                                                    <div class="dropdown open">
+                                                                        <button class="btn btn-sm btn-outline-dark btn-floating border-0" type="button" id="triggerId-{{c.pk}}" data-mdb-toggle="dropdown" aria-haspopup="true"
+                                                                                aria-expanded="false">
+                                                                                <i class="fas fa-ellipsis-v"></i>
+                                                                                </button>
+                                                                        <div class="dropdown-menu" aria-labelledby="triggerId-{{c.pk}}">
+                                                                            <a class="dropdown-item" href="#" onclick="edit_comment(event)">{% trans "Edit" %}</a>
+                                                                        </div>
+                                                                    </div>
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="comment-body text-muted py-2">
+                                                                {{cc.content}}
+                                                            </div>
+                                                            <!-- Buttons trigger collapse -->
+                                                            <div class="d-flex mb-3">
+                                                                <a
+                                                                    class="reply text-muted small me-3"
+                                                                    data-mdb-toggle="collapse"
+                                                                    href="#comment-{{cc.pk}}"
+                                                                    role="button"
+                                                                    aria-expanded="false"
+                                                                    aria-controls="comment-{{cc.pk}}"
+                                                                >
+                                                                    <small>{% trans "Reply" %} <i class="fas fa-reply"></i></small>
+                                                                </a>
+                                                                
+                                                                {% if cc.parent_comment.all.count %}
+                                                                    <a
+                                                                        class="show-reply small"
+                                                                        data-mdb-toggle="collapse"
+                                                                        href="#show-reply2-comment-{{cc.pk}}"
+                                                                        role="button"
+                                                                        aria-expanded="{% if cc.pk|slugify in cmt_edit %}true{% else %}false{% endif %}"
+                                                                        aria-controls="show-reply2-comment-{{cc.pk}}"
+                                                                    >
+                                                                        <small>{% trans "Show Replies" %}</small>
+                                                                        <span class="badge rounded-pill badge-notification bg-danger mx-1">
+                                                                            {% if cc.parent_comment.all.count < 99 %} 
+                                                                                {{cc.parent_comment.all.count}} 
+                                                                            {% else %} 
+                                                                                99+ 
+                                                                            {% endif %}
+                                                                        </span>
+                                                                    </a>
+                                                                {% endif %}
+                                                                    
+                                                            </div>
+                                                            <!-- Collapsed content -->
+                                                            <div class="collapse w-100" id="comment-{{cc.pk}}">
+                                                                {% if user.is_authenticated %}
+                                                                    {% if not listing.is_closed %}
+                                                                        <form action="{% url 'add-comment' %}" method="post" class="mb-3">
+                                                                            {% csrf_token %}
+                                                                            {% for field in comments_form %}
+                                                                                {% if not field.field.widget.input_type %}
+                                                                                <!-- textarea -->
+                                                                                    <div class="form-outline my-3 w-100">
+                                                                                        {{field}}
+                                                                                        {% blocktrans trimmed with label_tag=field.label_tag %}
+                                                                                            {{label_tag}}
+                                                                                        {% endblocktrans %}
+                                                                                        {% for error in field.errors %}
+                                                                                            <div class="row mb-2">
+                                                                                                <div class="col-md-12">
+                                                                                                    <div class="text-danger">
+                                                                                                        {% blocktrans trimmed with error=error|escape %}
+                                                                                                            {{error}}
+                                                                                                        {% endblocktrans %}
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        {% endfor %}
+                                                                                    </div>
+                                                                                {% else %}
+                                                                                    {{field}}
+                                                                                    {% for error in field.errors %}
+                                                                                        <div class="row mb-2">
+                                                                                            <div class="col-md-12">
+                                                                                                <div class="text-danger">
+                                                                                                    {% blocktrans trimmed with error=error|escape %}
+                                                                                                        {{error}}
+                                                                                                    {% endblocktrans %}
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    {% endfor %}
+                                                                                {% endif %}    
+                                                                            {% endfor %}
+                                                                            <input type="hidden" class="form-control" name="parent" value="{{cc.pk}}">
+                                                                            <input type="hidden" class="form-control" name="nxt" value="page={{request.GET.page}}&rt={{request.GET.rt}}&cmt={{c.pk}},{{cc.pk}}">
+                                                                            <button type="submit" class="btn btn-outline-primary d-flex ms-auto">{% trans "Submit" %}</button>
+                                                                        </form>
+                                                                    {% else %}
+                                                                        <p class="text-center my-2">{% trans "Auction Closed, hence Comments" %}</p>
+                                                                    {% endif %}
+                                                                {% else %}
+                                                                    <div class="text-center w-100 mb-3">
+                                                                        <a class="btn btn-primary text-center" href="{% url 'login' %}" role="button">{% trans "Sign In" %}</a>
+                                                                    </div>
+                                                                {% endif %}
+                                                            </div>
+
+                                                            {% for ccc in cc.parent_comment.all %}
+                                                                <!-- {% if ccc.parent and ccc.parent.pk == cc.pk %} -->
+                                                                    <div class="collapse w-100 {% if cc.pk|slugify in cmt_edit %}show{% endif %}" id="show-reply2-comment-{{cc.pk}}">
+                                                                        
+                                                                        <!-- child comment -->
+                                                                        <div class="d-flex bg-light justify-content-start align-items-start flex-column w-100">
+                                                                            <div class="d-flex w-100 p-2 pb-0 {% if forloop.last %}pt-0{% endif %}">
+                                                                                <a href="#!" class="{% if not forloop.last %}comment-img-link{% else %}last-link{% endif %}">
+                                                                                    <img src="https://ui-avatars.com/api/?background=random&rounded=true&name={{ccc.user.username}}" class="rounded-circle" height="35" alt="{% trans 'user' %}" loading="lazy">
+                                                                                </a>
+                                                                                <div class="d-flex justify-content-start align-items-start flex-column w-100 ps-3 pt-2" style="z-index: 1;">
+                                                                                    <div class="w-100 d-flex justify-content-between align-items-start">
+                                                                                        <div class="d-flex justify-content-start align-items-start">                                                                                                    
+                                                                                            <a href="#!" class="d-flex" style="z-index: 1;">
+                                                                                                {% if ccc.user.pk == listing.user.pk %}
+                                                                                                    <small class="badge rounded-pill bg-secondary">{{ccc.user.username}}</small>
+                                                                                                {% else %}
+                                                                                                    <small class="link-dark badge rounded-pill mb-0 font-weight-bold">{{ccc.user.username}}</small>
+                                                                                                {% endif %}
+                                                                                            </a>
+                                                                                            <p class="mb-0 small text-muted mx-2 d-flex" data-mdb-toggle="tooltip" title="{{ccc.date|date:'d/m/Y h:i A e'}}"><small>{% blocktrans trimmed with date=ccc.date|timesince context "timesince ago e.g 6 days 'ago'" %}{{date}} ago{% endblocktrans %}</small></p>
+                                                                                        </div>
+                                                                                        {% if not listing.is_closed and user.pk == ccc.user.pk %}
+                                                                                            <div class="dropdown open">
+                                                                                                <button class="btn btn-sm btn-outline-dark btn-floating border-0" type="button" id="triggerId-{{c.pk}}" data-mdb-toggle="dropdown" aria-haspopup="true"
+                                                                                                        aria-expanded="false">
+                                                                                                        <i class="fas fa-ellipsis-v"></i>
+                                                                                                        </button>
+                                                                                                <div class="dropdown-menu" aria-labelledby="triggerId-{{c.pk}}">
+                                                                                                    <a class="dropdown-item" href="#" onclick="edit_comment(event)">{% trans "Edit" %}</a>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        {% endif %}
+                                                                                    </div>
+                                                                                    <div class="comment-body text-muted py-2">
+                                                                                        {{ccc.content}}
+                                                                                    </div>
+                                                                                    
+                                                                                    <!-- Collapsed content -->
+                                                                                    <div class="collapse w-100" id="comment-{{ccc.pk}}">
+                                                                                        {% if user.is_authenticated %}
+                                                                                            {% if not listing.is_closed %}
+                                                                                                <form action="{% url 'add-comment' %}" method="post" class="mb-3">
+                                                                                                    {% csrf_token %}
+                                                                                                    {% for field in comments_form %}
+                                                                                                        {% if not field.field.widget.input_type %}
+                                                                                                        <!-- textarea -->
+                                                                                                            <div class="form-outline my-3 w-100">
+                                                                                                                {{field}}
+                                                                                                                {% blocktrans trimmed with label_tag=field.label_tag %}
+                                                                                                                    {{label_tag}}
+                                                                                                                {% endblocktrans %}
+                                                                                                                {% for error in field.errors %}
+                                                                                                                    <div class="row mb-2">
+                                                                                                                        <div class="col-md-12">
+                                                                                                                            <div class="text-danger">
+                                                                                                                                {% blocktrans trimmed with error=error|escape %}
+                                                                                                                                    {{error}}
+                                                                                                                                {% endblocktrans %}
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                {% endfor %}
+                                                                                                            </div>
+                                                                                                        {% else %}
+                                                                                                            {{field}}
+                                                                                                            {% for error in field.errors %}
+                                                                                                                <div class="row mb-2">
+                                                                                                                    <div class="col-md-12">
+                                                                                                                        <div class="text-danger">
+                                                                                                                            {% blocktrans trimmed with error=error|escape %}
+                                                                                                                                {{error}}
+                                                                                                                            {% endblocktrans %}
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            {% endfor %}
+                                                                                                        {% endif %}    
+                                                                                                    {% endfor %}
+                                                                                                    <input type="hidden" class="form-control" name="parent" value="{{ccc.pk}}">
+                                                                                                    <input type="hidden" class="form-control" name="nxt" value="page={{request.GET.page}}&rt={{request.GET.rt}}&cmt={{c.pk}},{{cc.pk}},{{ccc.pk}}">
+                                                                                                    <button type="submit" class="btn btn-outline-primary d-flex ms-auto">{% trans "Submit" %}</button>
+                                                                                                </form>
+                                                                                            {% else %}
+                                                                                                <p class="text-center my-2">{% trans "Auction Closed, hence Comments" %}</p>
+                                                                                            {% endif %}
+                                                                                        {% else %}
+                                                                                            <div class="text-center w-100 mb-3">
+                                                                                                <a class="btn btn-primary text-center" href="{% url 'login' %}" role="button">{% trans "Sign In" %}</a>
+                                                                                            </div>
+                                                                                        {% endif %}
+                                                                                    </div>
+                
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                <!-- {% endif %} -->
+                                                            {% endfor %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+        
+                                            </div>
+                                        <!-- {% endif %} -->
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                    {% include "auctions/partials/pagination.html" with paginator=paginator page_obj=page_obj extra_param='&rt=comments' %}
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    
+    // handle edit button
+    let edit_comment = (e) => {
+        e = e || window.event;
+        e.preventDefault();
+        let el = e.target || e.srcElement;
+        let top_parent = el.parentElement.parentElement.parentElement.parentElement;
+
+        if(top_parent){
+            let content = top_parent.querySelector('.comment-body').textContent.trim();
+
+            if(content){
+                let cc = top_parent.querySelector('[name=comment-content]');
+                if(cc){
+                    let tp = top_parent.querySelector('.collapse');
+                    let tp_id = tp.getAttribute('id').split('-')[1];
+
+                    tp.classList.add('show');
+                    cc.textContent = content;
+                    cc.setAttribute("autofocus", 'true');
+                    cc.focus();
+                    cc.select();
+
+                    // edit input
+                    let hidden_edit = document.createElement('input');
+
+                    hidden_edit.setAttribute('type', 'hidden');
+                    hidden_edit.setAttribute('name', 'edit');
+                    hidden_edit.setAttribute('value', tp_id);
+                    cc.parentElement.appendChild(hidden_edit);
+                }
+            }
+        }
+    }
+
+    // handle reply click after edit hidden input has been inserted,
+    // if there is edit hidden input, remove it
+    let handle_reply = () => {
+        let reply_btn = document.querySelectorAll('.reply');
+        if(reply_btn){
+            reply_btn.forEach(el => {
+                el.addEventListener('click', function(){
+                    nxt_form = this.parentElement.parentElement.querySelector('.collapse > form, .collapsing > form');
+                    if(nxt_form){
+                        edit_input = nxt_form.querySelector('[name=edit]');
+                        if(edit_input){
+                            edit_input.remove();
+                        }
+                    }
+                });
+            });
+        }
+    }
+    handle_reply();
+
+</script>

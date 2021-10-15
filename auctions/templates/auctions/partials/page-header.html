@@ -1,0 +1,18 @@
+{% load i18n %}
+
+<!-- Jumbotron -->
+<div id="intro" class="p-5 text-center intro-bg rounded lead">
+    <h1 class="mb-3 h2">
+        {% blocktrans trimmed with ttl=title|title %}
+            {{ttl}}
+        {% endblocktrans %}
+    </h1>
+    <p class="mb-3">
+        {% blocktrans trimmed %}
+            {{desc}}
+        {% endblocktrans %}
+    </p>
+</div>
+
+<!-- breadcrumb -->
+{% include "auctions/partials/breadcrumb.html" %}

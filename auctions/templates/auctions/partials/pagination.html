@@ -1,0 +1,24 @@
+{% load i18n %}
+
+{% if page_obj.paginator.num_pages > 1 %}
+    <!-- Pagination -->
+    <nav class="my-4" aria-label="page nav">
+        <ul class="pagination pagination-circle justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if extra_param %}{{extra_param}}{% endif %}" tabindex="-1" aria-disabled="true">{% trans "Previous" context "pagination previous btn" %}</a>
+                </li>
+            {% endif %}
+            {% for p in paginator.page_range %}
+                <li class="page-item mx-1 {% if page_obj.number == p %}active disabled{% endif %}" aria-current="page">
+                    <a class="page-link {% if page_obj.number == p %}text-white{% endif %}" href="?page={{ p }}{% if extra_param %}{{extra_param}}{% endif %}">{{p}} <span class="sr-only">({% trans "current" context "pagination current page" %})</span></a>
+                </li>
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if extra_param %}{{extra_param}}{% endif %}">{% trans "Next" context "pagination next btn" %}</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}

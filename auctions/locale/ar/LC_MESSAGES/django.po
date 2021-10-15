@@ -1,0 +1,911 @@
+# Arabic Translation.
+# Copyright (C) 2022 AH-SALAH for CS50W commerce project
+# This file is distributed under the same license as the CS50W package.
+# FIRST AUTHOR https://github.com/AH-SALAH, 2022.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: v0.0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-10-12 03:50+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: AH.SALAH <https://github.com/AH-SALAH>\n"
+"Language-Team: ar <LL@li.org>\n"
+"Language: Arabic\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: .\admin.py:39
+msgid "Personal info"
+msgstr "المعلومات الشخصية"
+
+#: .\admin.py:41
+msgid "Permissions"
+msgstr "الصلاحيات"
+
+#: .\admin.py:44
+msgid "Important dates"
+msgstr "توايخ مهمة"
+
+#: .\forms.py:28 .\models.py:30 .\templates\auctions\listing-add.html:21
+#: .\templates\auctions\listing-add.html:22
+#: .\templates\auctions\listing-add.html:43
+#: .\templates\auctions\listing-add.html:44
+#: .\templates\auctions\listing-add.html:51
+#: .\templates\auctions\listing-edit.html:22
+#: .\templates\auctions\listing-edit.html:23
+#: .\templates\auctions\listing-edit.html:44
+#: .\templates\auctions\listing-edit.html:45
+#: .\templates\auctions\listing-edit.html:69
+msgid "title"
+msgstr "العنوان"
+
+#: .\forms.py:29 .\models.py:33 .\models.py:134
+#: .\templates\auctions\listing-add.html:21
+#: .\templates\auctions\listing-add.html:22
+#: .\templates\auctions\listing-add.html:44
+#: .\templates\auctions\listing-add.html:51
+#: .\templates\auctions\listing-edit.html:22
+#: .\templates\auctions\listing-edit.html:23
+#: .\templates\auctions\listing-edit.html:45
+#: .\templates\auctions\listing-edit.html:69
+msgid "description"
+msgstr "الوصف"
+
+#: .\forms.py:30
+msgid "price"
+msgstr "السعر"
+
+#: .\forms.py:93
+msgid "Place Your Bid"
+msgstr "ضع مضاربة"
+
+#: .\forms.py:100 .\models.py:122
+msgid "Bid"
+msgstr "مضاربة"
+
+#: .\forms.py:114
+msgid "Write a Comment"
+msgstr "اكتب تعليق"
+
+#: .\forms.py:121 .\models.py:209
+msgid "Comment"
+msgstr "تعليق"
+
+#: .\forms.py:143
+msgid "Close this Auction, The last bid user will be the Winner."
+msgstr "أغلق هذه المناقصة, أخر مستخدم قام بأعلى مضاربة سيصبح الرابح"
+
+#: .\forms.py:206
+msgid "oldest"
+msgstr "الأقدم"
+
+#: .\forms.py:207
+msgid "newest"
+msgstr "الأحدث"
+
+#: .\forms.py:217
+msgid "Date"
+msgstr "التاريخ"
+
+#: .\forms.py:223
+msgid "lowest"
+msgstr "الأقل"
+
+#: .\forms.py:224
+msgid "highest"
+msgstr "الأعلى"
+
+#: .\forms.py:234
+msgid "Price"
+msgstr "السعر"
+
+#: .\forms.py:248 .\templates\auctions\listing-details.html:157
+#: .\templates\auctions\partials\card-v.html:15
+msgid "Closed"
+msgstr "مغلق"
+
+#: .\forms.py:262
+msgid "Expires in 1 week"
+msgstr "تنتهى خلال أسبوع"
+
+#: .\models.py:15
+msgid "phone"
+msgstr "جوال"
+
+#: .\models.py:18
+msgid "email address"
+msgstr "البريد الإلكترونى"
+
+#: .\models.py:31 .\models.py:132
+msgid "slug"
+msgstr "زيل"
+
+#: .\models.py:35
+msgid "start price"
+msgstr "السعر المبدئى"
+
+#: .\models.py:37
+msgid "last price"
+msgstr "أخر سعر"
+
+#: .\models.py:38
+msgid "author"
+msgstr "مالك"
+
+#: .\models.py:40
+msgid "category"
+msgstr "فئة"
+
+#: .\models.py:43 .\templates\auctions\listing-details.html:23
+#: .\templates\auctions\listing-edit.html:51
+#: .\templates\auctions\listing-edit.html:54
+#: .\templates\auctions\partials\card-v.html:8
+msgid "image"
+msgstr "صورة"
+
+#: .\models.py:44
+msgid "creation date"
+msgstr "تاريخ الأنشاء"
+
+#: .\models.py:46
+msgid "last modified"
+msgstr "أخر تعديل"
+
+#: .\models.py:47
+msgid "published date"
+msgstr "تاريخ النشر"
+
+#: .\models.py:49
+msgid "expiry date"
+msgstr "تاريخ الصلاحية"
+
+#: .\models.py:50 .\models.py:203 .\templates\auctions\listing-add.html:21
+#: .\templates\auctions\listing-add.html:22
+#: .\templates\auctions\listing-add.html:44
+#: .\templates\auctions\listing-add.html:51
+#: .\templates\auctions\listing-edit.html:22
+#: .\templates\auctions\listing-edit.html:23
+#: .\templates\auctions\listing-edit.html:45
+#: .\templates\auctions\listing-edit.html:69
+msgid "is active"
+msgstr "نشط"
+
+#: .\models.py:51
+msgid "closed"
+msgstr "مغلق"
+
+#: .\models.py:52
+msgid "winner"
+msgstr "الرابح"
+
+#: .\models.py:59
+msgid "Listing"
+msgstr "قائمة"
+
+#: .\models.py:60 .\templates\auctions\my-listings.html:13
+msgid "Listings"
+msgstr "قوائم"
+
+#: .\models.py:110 .\models.py:198 .\templates\auctions\partials\card-v.html:73
+#: .\templates\auctions\partials\comments.html:24
+#: .\templates\auctions\partials\comments.html:83
+#: .\templates\auctions\partials\comments.html:210
+#: .\templates\auctions\partials\comments.html:336
+msgid "user"
+msgstr "مستخدم"
+
+#: .\models.py:113 .\models.py:200 .\models.py:218
+msgid "listing"
+msgstr "قائمة"
+
+#: .\models.py:115
+msgid "bid amount"
+msgstr "قيمة الضاربة"
+
+#: .\models.py:116 .\models.py:196
+msgid "date"
+msgstr "التاريخ"
+
+#: .\models.py:123
+msgid "Bids"
+msgstr "مضاربات"
+
+#: .\models.py:131
+msgid "name"
+msgstr "الاسم"
+
+#: .\models.py:136
+msgid "parent category"
+msgstr "الفئة الاعلى"
+
+#: .\models.py:142
+msgid "Category"
+msgstr "فئة"
+
+#: .\models.py:143 .\templates\auctions\categories.html:5
+#: .\templates\auctions\categories.html:12
+#: .\templates\auctions\includes\footer.html:26
+msgid "Categories"
+msgstr "فئات"
+
+#: .\models.py:195
+msgid "content"
+msgstr "محتوى"
+
+#: .\models.py:202
+msgid "reply on"
+msgstr "رد على"
+
+#: .\models.py:210 .\templates\auctions\listing-details.html:187
+msgid "Comments"
+msgstr "التعليقات"
+
+#: .\models.py:216
+msgid "watchlist user"
+msgstr "مستخدم قائمة المراقبة"
+
+#: .\models.py:224 .\templates\auctions\partials\nav.html:38
+#: .\templates\auctions\watchlist.html:5 .\templates\auctions\watchlist.html:12
+msgid "Watchlist"
+msgstr "قائمة المراقبة"
+
+#: .\models.py:225
+msgid "Watchlists"
+msgstr "قوائم المراقبة"
+
+#: .\templates\auctions\categories-single.html:7
+#: .\templates\auctions\index.html:51 .\templates\auctions\index.html:76
+#: .\templates\auctions\index.html:118
+#: .\templates\auctions\listing-details.html:83
+#: .\templates\auctions\partials\card-v.html:144
+#: .\templates\auctions\partials\card-v.html:147
+#, python-format
+msgid "%(cate_name)s"
+msgstr ""
+
+#: .\templates\auctions\categories-single.html:28
+#: .\templates\auctions\index.html:149 .\templates\auctions\index.html:189
+#: .\templates\auctions\my-listings.html:23
+#: .\templates\auctions\watchlist.html:24
+msgid "No Listings"
+msgstr "لا يوجد قوائم"
+
+#: .\templates\auctions\categories.html:12
+msgid "Choose to go to it's Contents"
+msgstr "اختر للذهاب للمحتوى"
+
+#: .\templates\auctions\categories.html:12 .\urls.py:12
+msgid "categories"
+msgstr "فئات"
+
+#: .\templates\auctions\categories.html:29
+#: .\templates\auctions\categories.html:83
+#, python-format
+msgid "%(name)s"
+msgstr ""
+
+#: .\templates\auctions\categories.html:34
+#: .\templates\auctions\categories.html:88
+#: .\templates\auctions\listing-details.html:207
+#: .\templates\auctions\partials\card-v.html:35
+#: .\templates\auctions\partials\page-header.html:11
+#, python-format
+msgid "%(desc)s"
+msgstr ""
+
+#: .\templates\auctions\edit-modal.html:5
+#: .\templates\auctions\edit-modal.html:20
+#, python-format
+msgid "Edit %(ttl)s"
+msgstr "تعديل %(ttl)s"
+
+#: .\templates\auctions\edit-modal.html:26
+msgid "yeah,no,maybe"
+msgstr "نعم,لا,ربما"
+
+#: .\templates\auctions\edit-modal.html:30
+#: .\templates\auctions\listing-details.html:61
+msgid "Close"
+msgstr "أغلق"
+
+#: .\templates\auctions\edit-modal.html:32
+msgid "Save changes"
+msgstr "حفظ التعديلات"
+
+#: .\templates\auctions\includes\footer.html:14
+#: .\templates\auctions\includes\footer.html:60
+#: .\templates\auctions\layout.html:14 .\templates\auctions\partials\nav.html:7
+msgid "Auctions"
+msgstr "مناقصات"
+
+#: .\templates\auctions\includes\footer.html:18
+msgid ""
+"Auction is a sales event wherein potential buyers place competitive bids on "
+"assets or services"
+msgstr ""
+"المزاد هو حدث مبيعات حيث يقدم المشترون المحتملون عروض أسعار تنافسية على "
+"الأصول أو الخدمات"
+
+#: .\templates\auctions\includes\footer.html:40
+msgid "Latest Listings"
+msgstr "أخر القوائم"
+
+#: .\templates\auctions\includes\header.html:16
+#, python-format
+msgid "%(message)s"
+msgstr ""
+
+#: .\templates\auctions\index.html:15
+msgid "Auctions Listings Service"
+msgstr "خدمة قوائم المناقصات"
+
+#: .\templates\auctions\index.html:17
+msgid "Active Listings"
+msgstr "القوائم النشطة"
+
+#: .\templates\auctions\index.html:24 .\templates\auctions\index.html:30
+#: .\templates\auctions\index.html:32 .\templates\auctions\index.html:109
+#: .\templates\auctions\index.html:161 .\views.py:98
+msgid "All"
+msgstr "الكل"
+
+#: .\templates\auctions\index.html:98 .\templates\auctions\index.html:136
+#: .\templates\auctions\index.html:180
+#: .\templates\auctions\partials\related-listings.html:6
+msgid "See all"
+msgstr "رؤية الكل"
+
+#: .\templates\auctions\index.html:168
+#, python-format
+msgid "%(req_cate)s"
+msgstr ""
+
+#: .\templates\auctions\layout.html:14
+#: .\templates\auctions\partials\breadcrumb.html:9
+msgid "Home"
+msgstr "الرئيسية"
+
+#: .\templates\auctions\listing-add.html:5
+#: .\templates\auctions\listing-add.html:13
+msgid "Add New Listing"
+msgstr "أضف قائمة جديدة"
+
+#: .\templates\auctions\listing-add.html:23
+#: .\templates\auctions\listing-add.html:38
+#: .\templates\auctions\listing-add.html:46
+#: .\templates\auctions\listing-edit.html:24
+#: .\templates\auctions\listing-edit.html:39
+#: .\templates\auctions\listing-edit.html:47
+#: .\templates\auctions\partials\comments.html:33
+#: .\templates\auctions\partials\comments.html:158
+#: .\templates\auctions\partials\comments.html:284
+#: .\templates\auctions\partials\comments.html:377
+#, python-format
+msgid "%(label_tag)s"
+msgstr ""
+
+#: .\templates\auctions\listing-add.html:30
+#: .\templates\auctions\listing-details.html:64
+#: .\templates\auctions\listing-edit.html:31
+#, python-format
+msgid "%(help_text)s"
+msgstr ""
+
+#: .\templates\auctions\listing-add.html:59
+#: .\templates\auctions\listing-edit.html:78
+#: .\templates\auctions\partials\comments.html:41
+#: .\templates\auctions\partials\comments.html:55
+#: .\templates\auctions\partials\comments.html:165
+#: .\templates\auctions\partials\comments.html:179
+#: .\templates\auctions\partials\comments.html:291
+#: .\templates\auctions\partials\comments.html:305
+#: .\templates\auctions\partials\comments.html:384
+#: .\templates\auctions\partials\comments.html:398
+#, python-format
+msgid "%(error)s"
+msgstr ""
+
+#: .\templates\auctions\listing-add.html:69
+#: .\templates\auctions\partials\comments.html:65
+#: .\templates\auctions\partials\comments.html:190
+#: .\templates\auctions\partials\comments.html:316
+#: .\templates\auctions\partials\comments.html:409
+msgid "Submit"
+msgstr "أرسل"
+
+#: .\templates\auctions\listing-details.html:8
+#: .\templates\auctions\listing-details.html:96
+#: .\templates\auctions\partials\card-v.html:30
+#: .\templates\auctions\partials\page-header.html:6
+#, python-format
+msgid "%(ttl)s"
+msgstr ""
+
+#: .\templates\auctions\listing-details.html:37
+#: .\templates\auctions\listing-details.html:46
+#: .\templates\auctions\partials\card-v.html:124
+#: .\templates\auctions\partials\card-v.html:133
+msgid "Remove from"
+msgstr "الحذف من"
+
+#: .\templates\auctions\listing-details.html:37
+#: .\templates\auctions\listing-details.html:46
+#: .\templates\auctions\partials\card-v.html:124
+#: .\templates\auctions\partials\card-v.html:133
+msgid "Add to"
+msgstr "أضف إلى"
+
+#: .\templates\auctions\listing-details.html:37
+#: .\templates\auctions\listing-details.html:46
+#: .\templates\auctions\partials\card-v.html:124
+#: .\templates\auctions\partials\card-v.html:133
+msgid "watchlist"
+msgstr "قائمة المراقبة"
+
+#: .\templates\auctions\listing-details.html:73
+#, python-format
+msgid "Winner is %(winner)s"
+msgstr "الفائز هو %(winner)s"
+
+#: .\templates\auctions\listing-details.html:88
+#: .\templates\auctions\partials\card-v.html:23
+#: .\templates\auctions\partials\comments.html:104
+#: .\templates\auctions\partials\comments.html:231
+#: .\templates\auctions\partials\comments.html:357
+msgid "Edit"
+msgstr "تعديل"
+
+#: .\templates\auctions\listing-details.html:104
+#, python-format
+msgid "Published %(date_period)s ago"
+msgstr "تم النشر منذ %(date_period)s"
+
+#: .\templates\auctions\listing-details.html:109
+msgid "Expires on"
+msgstr "ينتهى فى"
+
+#: .\templates\auctions\listing-details.html:118
+msgid "Expires in"
+msgstr "ينتهى خلال"
+
+#: .\templates\auctions\listing-details.html:128
+#: .\templates\auctions\partials\card-v.html:111
+msgid "Expired"
+msgstr "منتهى الصلاحية"
+
+#: .\templates\auctions\listing-details.html:134
+#: .\templates\auctions\partials\card-v.html:98
+msgid "Expires soon"
+msgstr "ينتهى قريبا"
+
+#: .\templates\auctions\listing-details.html:141
+#: .\templates\auctions\partials\card-v.html:103
+msgid "New"
+msgstr "جديد"
+
+#: .\templates\auctions\listing-details.html:166
+#: .\templates\auctions\partials\card-v.html:55
+msgid "Latest bid"
+msgstr "أخر مناقصة"
+
+#: .\templates\auctions\listing-details.html:182
+msgid "Description"
+msgstr "الوصف"
+
+#: .\templates\auctions\listing-details.html:211
+msgid "No Description"
+msgstr "لا يوجد وصف"
+
+#: .\templates\auctions\listing-edit.html:11
+msgid "yeah"
+msgstr "نعم"
+
+#: .\templates\auctions\listing-edit.html:12
+msgid "Edit Listing"
+msgstr "تعديل قائمة"
+
+#: .\templates\auctions\login.html:5 .\templates\auctions\login.html:13
+msgid "Login"
+msgstr "تسجيل الدخول"
+
+#: .\templates\auctions\login.html:16 .\templates\auctions\register.html:16
+#, python-format
+msgid "%(msg)s"
+msgstr ""
+
+#: .\templates\auctions\login.html:26 .\templates\auctions\login.html:27
+#: .\templates\auctions\register.html:24 .\templates\auctions\register.html:25
+msgid "User name"
+msgstr "أسم المستخدم"
+
+#: .\templates\auctions\login.html:32 .\templates\auctions\login.html:33
+#: .\templates\auctions\register.html:36 .\templates\auctions\register.html:37
+msgid "Password"
+msgstr "كلمة المرور"
+
+#: .\templates\auctions\login.html:49
+msgid "Don't have an account?"
+msgstr "ليس لديك حساب؟"
+
+#: .\templates\auctions\login.html:49
+msgid "Register here"
+msgstr "سجّل هنا"
+
+#: .\templates\auctions\login.html:54 .\templates\auctions\partials\nav.html:59
+msgid "Sign in"
+msgstr "تسجيل الدخول"
+
+#: .\templates\auctions\my-listings.html:5
+#: .\templates\auctions\partials\nav.html:29
+msgid "My Listings"
+msgstr "قوائمى"
+
+#: .\templates\auctions\partials\bid-form.html:17
+#, python-format
+msgid "%(error|escape)s"
+msgstr ""
+
+#: .\templates\auctions\partials\bid-form.html:28
+#: .\templates\auctions\partials\card-v.html:80
+#: .\templates\auctions\partials\card-v.html:92
+msgid "Bid Now"
+msgstr "ضارب الأن"
+
+#: .\templates\auctions\partials\breadcrumb.html:16
+#: .\templates\auctions\partials\breadcrumb.html:52 .\views.py:402
+msgid "Add listing"
+msgstr "إضافة قائمة"
+
+#: .\templates\auctions\partials\breadcrumb.html:16
+#: .\templates\auctions\partials\breadcrumb.html:52 .\views.py:402
+msgid "Edit listing"
+msgstr "تعديل قائمة"
+
+#: .\templates\auctions\partials\breadcrumb.html:21
+#: .\templates\auctions\partials\breadcrumb.html:44
+#: .\templates\auctions\partials\breadcrumb.html:57
+#, python-format
+msgid "%(var1)s"
+msgstr ""
+
+#: .\templates\auctions\partials\breadcrumb.html:28
+#: .\templates\auctions\partials\breadcrumb.html:70
+#: .\templates\auctions\partials\breadcrumb.html:77
+#, python-format
+msgid "%(var2)s"
+msgstr ""
+
+#: .\templates\auctions\partials\breadcrumb.html:53
+#: .\templates\auctions\partials\breadcrumb.html:86
+#: .\templates\auctions\partials\breadcrumb.html:95
+#, python-format
+msgid "%(crumb)s"
+msgstr ""
+
+#: .\templates\auctions\partials\breadcrumb.html:64
+#, python-format
+msgid "%(var3)s"
+msgstr ""
+
+#: .\templates\auctions\partials\card-v.html:23
+msgid "Renew"
+msgstr "جدد"
+
+#: .\templates\auctions\partials\card-v.html:85
+#, python-format
+msgid "Winner is %(username)s"
+msgstr "الفائز هو %(username)s"
+
+#: .\templates\auctions\partials\comments.html:10
+#, python-format
+msgid "%(comment_len_count)s comment"
+msgid_plural "%(comment_len_count)s comments"
+msgstr[0] "تعليق واحد"
+msgstr[1] "تعليقان"
+msgstr[2] "%(comment_len_count)s تعليق"
+msgstr[3] "%(comment_len_count)s تعليق"
+msgstr[4] "%(comment_len_count)s تعليق"
+msgstr[5] "%(comment_len_count)s تعليق"
+
+#: .\templates\auctions\partials\comments.html:17
+msgid "No comments yet"
+msgstr "لايوجد تعليقات حتى الأن"
+
+#: .\templates\auctions\partials\comments.html:69
+#: .\templates\auctions\partials\comments.html:193
+#: .\templates\auctions\partials\comments.html:319
+#: .\templates\auctions\partials\comments.html:412
+msgid "Auction Closed, hence Comments"
+msgstr "تم إغلاق المناقصة , و بالتالى التعليقات"
+
+#: .\templates\auctions\partials\comments.html:73
+#: .\templates\auctions\partials\comments.html:197
+#: .\templates\auctions\partials\comments.html:323
+#: .\templates\auctions\partials\comments.html:416
+msgid "Sign In"
+msgstr "تسجيل الدخول"
+
+#: .\templates\auctions\partials\comments.html:95
+#: .\templates\auctions\partials\comments.html:222
+#: .\templates\auctions\partials\comments.html:348
+#, python-format
+msgctxt "timesince ago e.g 6 days 'ago'"
+msgid "%(date)s ago"
+msgstr "منذ %(date)s"
+
+#: .\templates\auctions\partials\comments.html:122
+#: .\templates\auctions\partials\comments.html:249
+msgid "Reply"
+msgstr "رد"
+
+#: .\templates\auctions\partials\comments.html:134
+#: .\templates\auctions\partials\comments.html:261
+msgid "Show Replies"
+msgstr "أعرض الردود"
+
+#: .\templates\auctions\partials\filter.html:42
+msgid "Sort by"
+msgstr "ترتيب بواسطة"
+
+#: .\templates\auctions\partials\nav.html:19
+msgid "Add Listing"
+msgstr "إضافة قائمة"
+
+#: .\templates\auctions\partials\nav.html:45
+msgid "Admin"
+msgstr "المدير"
+
+#: .\templates\auctions\partials\nav.html:57
+msgid "Sign out"
+msgstr "تسجيل الخروج"
+
+#: .\templates\auctions\partials\nav.html:60
+#: .\templates\auctions\register.html:5 .\templates\auctions\register.html:13
+#: .\templates\auctions\register.html:64
+msgid "Register"
+msgstr "التسجيل"
+
+#: .\templates\auctions\partials\nav.html:71
+msgid "Language"
+msgstr "اللغة"
+
+#: .\templates\auctions\partials\pagination.html:9
+msgctxt "pagination previous btn"
+msgid "Previous"
+msgstr "السابق"
+
+#: .\templates\auctions\partials\pagination.html:14
+msgctxt "pagination current page"
+msgid "current"
+msgstr "الحالى"
+
+#: .\templates\auctions\partials\pagination.html:19
+msgctxt "pagination next btn"
+msgid "Next"
+msgstr "التالى"
+
+#: .\templates\auctions\partials\related-listings.html:5
+msgid "Related Listings"
+msgstr "قوائم ذات صلة"
+
+#: .\templates\auctions\partials\related-listings.html:18
+msgid "No related Listings yet"
+msgstr "لايوجد قوائم ذات صلة حتى الأن"
+
+#: .\templates\auctions\register.html:30
+msgid "Email Address"
+msgstr "عنوان البريد الإلكترونى"
+
+#: .\templates\auctions\register.html:31
+msgid "Email"
+msgstr "البريد الإلكترونى"
+
+#: .\templates\auctions\register.html:42 .\templates\auctions\register.html:43
+msgid "Confirm Password"
+msgstr "تأكيد كلمة المرور"
+
+#: .\templates\auctions\register.html:59
+msgid "Already have an account?"
+msgstr "لديك حساب بالفعل؟"
+
+#: .\templates\auctions\register.html:59
+msgid "Log In here"
+msgstr "سجل الدخول هنا"
+
+#: .\urls.py:9
+msgid "login"
+msgstr "تسجيل الدخول"
+
+#: .\urls.py:10
+msgid "logout"
+msgstr "تسجيل الخروج"
+
+#: .\urls.py:11
+msgid "register"
+msgstr "التسجيل"
+
+#: .\urls.py:13
+msgid "bid/add-bid"
+msgstr "مناقصة/أضف-مناقصة"
+
+#: .\urls.py:14
+msgid "comment/add-comment"
+msgstr "تعليقات/أضافة-تعليق"
+
+#: .\urls.py:15
+msgid "^categories/(?P<pslug>[\\w-]+)/(?P<slug>[\\w-]+)?$"
+msgstr "^فئات/(?P<pslug>[\\w-]+)/(?P<slug>[\\w-]+)?$"
+
+#: .\urls.py:17
+msgid "watchlist/<slug:username>"
+msgstr "قائمة-المراقبة/<slug:username>"
+
+#: .\urls.py:18
+msgid "listing/add"
+msgstr "إضافة/قائمة"
+
+#: .\urls.py:19
+msgid ""
+"^categories/(?P<parent_cate>[\\w-]+)/(?P<category>[\\w-]+)/(?P<slug>[\\w-]+)/"
+"edit$"
+msgstr ""
+"^فئات/(?P<parent_cate>[\\w-]+)/(?P<category>[\\w-]+)/(?P<slug>[\\w-]+)/تعديل$"
+
+#: .\urls.py:21
+msgid "listings/<slug:username>"
+msgstr "القوائم/<slug:username>"
+
+#: .\urls.py:22
+msgid ""
+"^categories/(?P<parent_cate>[\\w-]+)/(?P<category>[\\w-]+)/(?P<slug>[\\w-]+)$"
+msgstr ""
+"^فئات/(?P<parent_cate>[\\w-]+)/(?P<category>[\\w-]+)/(?P<slug>[\\w-]+)$"
+
+#: .\urls.py:24
+msgid "lang/<slug:lang>"
+msgstr "اللغة/<slug:lang>"
+
+#: .\views.py:146
+msgid "Invalid username and/or password."
+msgstr "أسم المستخد و/أو كلمة المرور غير صحيحة"
+
+#: .\views.py:173
+msgid "Email & username shouldn't be empty"
+msgstr "اسم المستخدم و البريد الإلكترونى يجب ان لا يكونا فارغين"
+
+#: .\views.py:181
+msgid "Passwords must match."
+msgstr "كلمات المرور يجب ان تتوافق"
+
+#: .\views.py:190
+msgid "Username already taken."
+msgstr "أسم المستخدم مستخدم من قبل"
+
+#: .\views.py:248
+msgid "Invalid listing addition"
+msgstr "إضافة قائمة غير صالحة"
+
+#: .\views.py:260
+#, no-python-format
+msgid "%(title)s listing Removed from the watchlist"
+msgstr "تم حذفها من قائمة المراقبة %(title)s"
+
+#: .\views.py:263
+msgid "watchlist is not exist"
+msgstr "قائمة مراقبة غير موجودة"
+
+#: .\views.py:271
+#, python-format
+msgid "%(title)s listing added to the watchlist"
+msgstr "لقائمة المراقبة %(title)s تم إضافة"
+
+#: .\views.py:291
+#, python-format
+msgid "You have %(wl_listings_count)d listing in your Watchlist"
+msgstr "لديك %(wl_listings_count)d قائمة فى قائمة المراقبة"
+
+#: .\views.py:292
+#, python-format
+msgid "You have %(wl_listings_count)d listings in your Watchlist"
+msgstr "لديك %(wl_listings_count)d قوائم فى قائمة المراقبة"
+
+#: .\views.py:322 .\views.py:393
+#, fuzzy, python-format
+#| msgid "You have %(listings_count)d listing"
+msgid "You have %(listings_count)d listing"
+msgstr "لديك %(wl_listings_count)d قائمة"
+
+#: .\views.py:323 .\views.py:394
+#, python-format
+msgid "You have %(listings_count)d listings"
+msgstr "لديك %(listings_count)d من القوائم"
+
+#: .\views.py:346
+msgid "Invalid listing submission"
+msgstr "إرسال قائمة غير صالحة"
+
+#: .\views.py:355
+#, no-python-format
+msgid "%(title)s added successfully"
+msgstr "بنجاح %(title)s تمت إضافة"
+
+#: .\views.py:360
+#, no-python-format
+msgid "%(title)s updated successfully"
+msgstr "بنجاح %(title)s تم تعديل"
+
+#: .\views.py:364
+msgid ""
+"Sorry, but multiple listing found with the same name, try change others or "
+"contact the administrators"
+msgstr ""
+"عفوا, ولكن تم إيجاد أكثر من قائمة بنفس الأسم, حاول تغيير الأخرين او تواصل مع "
+"احد المديرين"
+
+#: .\views.py:381
+msgid "No Listing found! Try Adding one!"
+msgstr "لا يوجد قائمة, حاول إضافة واحدة"
+
+#: .\views.py:442
+msgid "The Auction already closed!"
+msgstr "القائمة مغلقة بالفعل"
+
+#: .\views.py:452
+msgid "Who is The Winner?! No single bid yet!"
+msgstr "من الفائز إذا؟ لايوجد اى مناقصة حتى الان"
+
+#: .\views.py:463
+#, no-python-format
+msgid "Auction has been closed, Winner is %(username)s"
+msgstr "%(username)s تم إغلاق المناقصة و الفائز هو"
+
+#: .\views.py:515
+msgid ""
+"Bid Amount Can't be less Than The Listing Price or Less than or Equal to The "
+"Latest Bid Amount"
+msgstr ""
+"قيمة المضاربة يجب ان لا تكون أقل من سعر القائمة او أقل من او يساوى أخر عملية "
+"مضاربة"
+
+#: .\views.py:528
+msgid "Bid made successfully"
+msgstr "مناقصة ناجحة"
+
+#: .\views.py:532
+msgid "Bid already made!"
+msgstr "المضاربة تمت بالفعل"
+
+#: .\views.py:535
+msgid "Multiple Bids Found!"
+msgstr "تم ‘يجاد أكثر من مناقصة"
+
+#: .\views.py:539
+msgid "Bid is not valid"
+msgstr "مناقصة غير صالحة"
+
+#: .\views.py:571
+msgid "Comment Added successfully"
+msgstr "تم التعليق بنجاح"
+
+#: .\views.py:578
+msgid "Comment Updated successfully"
+msgstr "تم تعديل التعليق"
+
+#: .\views.py:585
+#, no-python-format
+msgid ":( %(error)s"
+msgstr ""
+
+#~ msgid "No Listings Yet"
+#~ msgstr "لا يوجد قوائم حتى الأن"
+
+#~ msgid "categories-single"
+#~ msgstr "فئة"
+
+#~ msgid "my listings"
+#~ msgstr "قوائمى"

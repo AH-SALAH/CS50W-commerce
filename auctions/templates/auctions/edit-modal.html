@@ -1,0 +1,39 @@
+{% extends "./layout.html" %}
+{% load i18n %}
+
+{% block title %}
+    {% blocktrans trimmed with ttl=listing.title %}
+        Edit {{ttl}}
+    {% endblocktrans %}
+{% endblock %}
+
+
+{% block body %}
+
+<!-- Modal -->
+<form action="{% url 'listing-edit' listing.category.parent.slug listing.category.slug listing.slug %}" method="post" enctype="multipart/form-data" class="d-flex flex-column justify-content-start align-items-start flex-wrap w-100">
+    <div class="modal d-flex modal-dialog-scrollable modal-fullscreen pt-5" style="z-index: 1029;" id="{{listing.slug}}" tabindex="-1" aria-labelledby="{{listing.slug}}-ModalLabel" aria-hidden="true">
+        <div class="w-100 pt-3">
+            <div class="modal-content w-100">
+                <div class="modal-header w-100">
+                    <h5 class="modal-title mx-auto" id="{{listing.slug}}-ModalLabel">
+                        {% blocktrans with ttl=listing.slug trimmed %}
+                            Edit {{ttl}}
+                        {% endblocktrans %} 
+                    </h5>
+                </div>
+                <div class="modal-body w-100">
+                    {% include "./listing-edit.html" with from_modal=True|yesno:_("yeah,no,maybe") %}
+                </div>
+                <div class="modal-footer w-100">
+                    <a href="{{listing.get_absolute_url}}" type="button" class="btn btn-light" data-mdb-dismiss="modal">
+                        {% trans "Close" %}
+                    </a>
+                    <button type="submit" class="btn btn-primary">{% trans "Save changes" %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endblock %}
