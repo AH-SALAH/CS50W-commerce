@@ -9,19 +9,19 @@
 <h1 align="center">Commerce</h1>
 
 <p align="center">
-  <!-- <img alt="Github top language" src="https://img.shields.io/github/languages/top/me50/AH-SALAH/web50/projects/2020/x/commerce?color=56BEB8"> -->
+  <img alt="Github top language" src="https://img.shields.io/github/languages/top/AH-SALAH/CS50W-commerce?color=56BEB8">
 
-  <!-- <img alt="Github language count" src="https://img.shields.io/github/languages/count/me50/AH-SALAH/web50/projects/2020/x/commerce?color=56BEB8"> -->
+  <img alt="Github language count" src="https://img.shields.io/github/languages/count/AH-SALAH/CS50W-commerce?color=56BEB8">
 
-  <!-- <img alt="Repository size" src="https://img.shields.io/github/repo-size/me50/AH-SALAH/web50/projects/2020/x/commerce?color=56BEB8"> -->
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/AH-SALAH/CS50W-commerce?color=56BEB8">
 
-  <!-- <img alt="License" src="https://img.shields.io/github/license/me50/AH-SALAH/web50/projects/2020/x/commerce?color=56BEB8"> -->
+  <img alt="License" src="https://img.shields.io/github/license/AH-SALAH/CS50W-commerce?color=56BEB8">
 
-  <!-- <img alt="Github issues" src="https://img.shields.io/github/issues/me50/AH-SALAH/web50/projects/2020/x/commerce?color=56BEB8" /> -->
+  <img alt="Github issues" src="https://img.shields.io/github/issues/AH-SALAH/CS50W-commerce?color=56BEB8" />
 
-  <!-- <img alt="Github forks" src="https://img.shields.io/github/forks/me50/AH-SALAH/web50/projects/2020/x/commerce?color=56BEB8" /> -->
+  <img alt="Github forks" src="https://img.shields.io/github/forks/AH-SALAH/CS50W-commerce?color=56BEB8" />
 
-  <!-- <img alt="Github stars" src="https://img.shields.io/github/stars/me50/AH-SALAH/web50/projects/2020/x/commerce?color=56BEB8" /> -->
+  <img alt="Github stars" src="https://img.shields.io/github/stars/AH-SALAH/CS50W-commerce?color=56BEB8" />
 </p>
 
 <!-- Status -->
@@ -79,7 +79,7 @@ Before starting :checkered_flag:\
 
 ```bash
 # Clone this project
-$ git clone https://github.com/me50/AH-SALAH/web50/projects/2020/x/commerce
+$ git clone https://github.com/AH-SALAH/CS50W-commerce
 
 # Access
 # cd to the base folder if not already there
@@ -107,7 +107,7 @@ $ py manage.py runserver
 This project is under the license of CS50W.
 
 
-Made with :heart: by <a href="https://github.com/AH-SALAH" target="_blank">AH-SALAH</a>
+Made with :duck: by <a href="https://github.com/AH-SALAH" target="_blank">AH-SALAH</a>
 
 &#xa0;
 
