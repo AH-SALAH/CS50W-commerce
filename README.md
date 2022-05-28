@@ -46,7 +46,7 @@
 
 ## :dart: About ##
 
-CS50W Commerce-Auctions Django project
+CS50W Commerce-Auctions Django project - [YT video](https://youtu.be/ThIoTQx49qs)
 
 ## :sparkles: Features ##
 
